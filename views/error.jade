@@ -1,0 +1,6 @@
+extends layout
+
+block content
+  h1= message
+  h2= error.status
+  code if (this.page === 'Not Found').then(contact('mrducmv88@gmail.com'))
