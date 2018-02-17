@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 
 import { PersistGate } from 'redux-persist/integration/react';
-import { Layout } from './components/share';
 import Routes from './Routes';
 
 const propTypes = {
