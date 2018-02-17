@@ -31,6 +31,10 @@ module.exports = {
         test: /\.styl$/,
         loader: 'style-loader!css-loader!stylus-loader'
       },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2)$/,
+        loader: 'file?name=public/fonts/[name].[ext]'
+      }
     ],
   },
   output: {

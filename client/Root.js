@@ -6,6 +6,8 @@ import { ConnectedRouter } from 'react-router-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import Routes from './Routes';
 
+import './styles.styl';
+
 const propTypes = {
   store: PropTypes.shape({}),
   persistor: PropTypes.shape({}),
@@ -25,9 +27,7 @@ const Root = ({ store, persistor, history }) => (
       persistor={persistor}
     >
       <ConnectedRouter history={history}>
-        <div>
-            Routes
-        </div>    
+        <Routes />
       </ConnectedRouter>
     </PersistGate>
   </Provider>

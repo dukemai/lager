@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import { Switch, Route, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
+import { Login } from './components';
+import { Layout } from './components/share';
+
+
 const propTypes = {
 };
 
@@ -18,9 +22,11 @@ class Routes extends React.Component {
   }
   render() {
     return (
-      <Switch>
-        <Route />
-      </Switch>
+      <Layout>
+        <Switch>
+          <Route exact path="/" component={Login} />
+        </Switch>
+      </Layout>
     );
   }
 }
