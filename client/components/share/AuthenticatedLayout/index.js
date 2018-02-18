@@ -24,7 +24,7 @@ const AuthenticatedLayout = ({ children }) => (
         <Grid.Column width={2} className="layout__column">
           <SideBar />
         </Grid.Column>
-        <Grid.Column width={14} className="layout__column">
+        <Grid.Column width={14} className="layout__column layout__column--right">
           {children}
         </Grid.Column>
       </Grid.Row>

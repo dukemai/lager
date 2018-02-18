@@ -21,7 +21,7 @@ export default class SideBar extends React.Component {
     const { activeItem } = this.state;
 
     return (
-      <Menu className="sideBar--main" icon="labeled" vertical>
+      <Menu inverted className="sideBar--main" icon="labeled" vertical>
         <Menu.Item>
           <Image src="https://react.semantic-ui.com/logo.png" />
         </Menu.Item>
@@ -38,7 +38,7 @@ export default class SideBar extends React.Component {
           Import
         </Menu.Item>
         <Menu.Item name="friends" active={activeItem === 'friends'} onClick={this.handleItemClick}>
-          <Icon name="video camera" />
+          <Icon name="archive" />
           Inspect
         </Menu.Item>
         <Menu.Item name="logout" active={activeItem === 'logout'} onClick={this.handleItemClick}>

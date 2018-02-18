@@ -3,7 +3,7 @@ import express from 'express';
 const router = express.Router();
 
 /* GET home page. */
-router.get(['/', '/login', '/register'], (req, res, next) => {
+router.get(['/', '/login', '/register', '/export', '/import'], (req, res, next) => {
   res.render('index', { title: 'Sample Site' });
 });
 
