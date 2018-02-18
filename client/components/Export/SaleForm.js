@@ -31,6 +31,7 @@ export default class SaleForm extends Component {
             New Product
           </Accordion.Title>
           <Accordion.Content active={activeIndex === 0}>
+            <Form.Input fluid label="Product image" placeholder="Product image" />
             <Form.Input fluid label="Product category" placeholder="Product category" />
             <Form.Input fluid label="Producer" placeholder="Producer" />
             <Form.Input fluid label="Distributor" placeholder="Distributor" />

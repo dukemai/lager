@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, Icon, Button, Segment } from 'semantic-ui-react';
+import { List, Icon, Button, Segment, Divider } from 'semantic-ui-react';
 
 const SaleList = () => (
   <List relaxed>
@@ -51,7 +51,18 @@ const SaleList = () => (
         </div>
       </Segment>
     </List.Item>
+    <List.Item>
+      <Divider horizontal>Total</Divider>
+      <Segment>
+        <div>
+          Quantity: 4
+        </div>
+        <div>
+          Total: 16,000
+        </div>
+      </Segment>
+    </List.Item>
   </List>
 );
 
-export default SaleList
+export default SaleList;
