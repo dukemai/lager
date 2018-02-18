@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Form, Accordion, Icon, Divider, Button } from 'semantic-ui-react';
+import { Form, Accordion, Icon, Button, Divider } from 'semantic-ui-react';
 
-export default class CustomerForm extends Component {
+export default class DistributorForm extends Component {
   state = { activeIndex: -1 }
 
   handleClick = (e, titleProps) => {
@@ -17,15 +17,17 @@ export default class CustomerForm extends Component {
     return (
       <Form>
         <Form.Group widths="equal">
-          <Form.Input fluid label="First name" placeholder="First name" />
-          <Form.Input fluid label="Last name" placeholder="Last name" />
+          <Form.Input fluid label="Company name" placeholder="Company name" />
         </Form.Group>
         <Accordion>
           <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
             <Icon name="dropdown" />
-            Company
-            </Accordion.Title>
+            New Company
+          </Accordion.Title>
           <Accordion.Content active={activeIndex === 0}>
+            <Form.Group widths="equal">
+              <Form.Input fluid label="Contact name" placeholder="Contact name" />
+            </Form.Group>
             <Form.Input fluid label="Phone number" placeholder="Phone number" />
             <Form.Input fluid label="Email" placeholder="Email" />
             <Form.Input fluid label="Address" placeholder="Address" />
@@ -34,7 +36,6 @@ export default class CustomerForm extends Component {
           </Accordion.Content>
         </Accordion>
         <Divider />
-        <Form.Checkbox label="Anonymous customer" />
         <Button positive>
           Next
           <Icon name="right arrow" />
