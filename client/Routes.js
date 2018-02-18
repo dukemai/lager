@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Switch, Route, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
-import { Login } from './components';
+import { Login, Register, Dashboard } from './components';
 import { Layout } from './components/share';
 
 
@@ -22,11 +22,11 @@ class Routes extends React.Component {
   }
   render() {
     return (
-      <Layout>
-        <Switch>
-          <Route exact path="/" component={Login} />
-        </Switch>
-      </Layout>
+      <Switch>
+        <Route exact path="/" component={Dashboard} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
+      </Switch>
     );
   }
 }
