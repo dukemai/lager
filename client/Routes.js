@@ -21,10 +21,10 @@ class Routes extends React.Component {
   render() {
     return (
       <Switch>
+        <Route exact path="/" component={Export} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/import" component={Import} />
-        <Route exact path="/export" component={Export} />
         <Route exact path="/inspect" component={Inspect} />
       </Switch>
     );
