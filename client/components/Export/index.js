@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Header, Grid, Tab } from 'semantic-ui-react';
+import { Header, Grid, Tab, Segment } from 'semantic-ui-react';
 
 import { AuthenticatedLayout } from '../share';
 import SaleForm from './SaleForm';
@@ -31,18 +31,18 @@ export default class Export extends React.Component {
       <AuthenticatedLayout>
         <Grid padded>
           <Grid.Row>
-            <section>
+            <Grid.Column textAlign="left" width="16">
               <Header textAlign="left" as="h2">
                 Sell
               </Header>
-            </section>
+            </Grid.Column>
           </Grid.Row>
           <Grid.Row>
             <Grid.Column textAlign="left" width="8">
               <Tab
                 menu={{
-                  secondary: true,
                   pointing: true,
+                  attached: false,
                 }}
                 panes={[
                   {

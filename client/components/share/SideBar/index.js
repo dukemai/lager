@@ -23,7 +23,7 @@ export default class SideBar extends React.Component {
     return (
       <Menu inverted className="sideBar--main" icon="labeled" vertical>
         <Menu.Item>
-          <Image src="https://react.semantic-ui.com/logo.png" />
+          <Image className="sideBar__logo" src="https://react.semantic-ui.com/logo.png" />
         </Menu.Item>
         <Menu.Item>
           <Icon name="user circle" />

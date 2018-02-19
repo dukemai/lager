@@ -14,21 +14,12 @@ const defaultProps = {
 
 const AuthenticatedLayout = ({ children }) => (
   <Layout>
-    <Grid
-      textAlign="center"
-      columns={16}
-      className="layout__grid"
-      verticalAlign="top"
-    >
-      <Grid.Row className="layout__row">
-        <Grid.Column width={2} className="layout__column">
-          <SideBar />
-        </Grid.Column>
-        <Grid.Column width={14} className="layout__column layout__column--right">
-          {children}
-        </Grid.Column>
-      </Grid.Row>
-    </Grid>
+    <div className="layout__column layout__column--first">
+      <SideBar />
+    </div>
+    <div className="layout__column layout__column--right">
+      {children}
+    </div>
   </Layout>
 );
 

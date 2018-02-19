@@ -4,6 +4,7 @@ import { Header, Grid, Tab } from 'semantic-ui-react';
 
 import DistributorForm from './DistributorForm';
 import BuyForm from './BuyForm';
+import BuyList from './BuyList';
 
 import { AuthenticatedLayout } from '../share';
 
@@ -31,17 +32,16 @@ export default class Import extends React.Component {
       <AuthenticatedLayout>
         <Grid padded>
           <Grid.Row>
-            <section>
+            <Grid.Column textAlign="left" width="16">
               <Header textAlign="left" as="h2">
                 Buy
               </Header>
-            </section>
+            </Grid.Column>
           </Grid.Row>
           <Grid.Row>
             <Grid.Column textAlign="left" width="8">
               <Tab
                 menu={{
-                  secondary: true,
                   pointing: true,
                 }}
                 panes={[
@@ -65,6 +65,7 @@ export default class Import extends React.Component {
               />
             </Grid.Column>
             <Grid.Column textAlign="left" width="8">
+              <BuyList />
             </Grid.Column>
           </Grid.Row>
         </Grid>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { List, Icon, Button, Segment, Divider } from 'semantic-ui-react';
 
-const SaleList = () => (
+const BuyList = () => (
   <List relaxed>
     <List.Item>
       <Segment>
@@ -63,4 +63,4 @@ const SaleList = () => (
   </List>
 );
 
-export default SaleList;
+export default BuyList;
