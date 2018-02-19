@@ -25,10 +25,6 @@ export default class SideBar extends React.Component {
         <Menu.Item>
           <Image className="sideBar__logo" src="https://react.semantic-ui.com/logo.png" />
         </Menu.Item>
-        <Menu.Item>
-          <Icon name="user circle" />
-          Duc Mai
-        </Menu.Item>
         <Menu.Item name="home" active={activeItem === 'home'} onClick={this.handleItemClick}>
           <Icon name="list ul" />
           Export
@@ -40,6 +36,14 @@ export default class SideBar extends React.Component {
         <Menu.Item name="friends" active={activeItem === 'friends'} onClick={this.handleItemClick}>
           <Icon name="archive" />
           Inspect
+        </Menu.Item>
+        <Menu.Item name="friends" active={activeItem === 'friends'} onClick={this.handleItemClick}>
+          <Icon name="address book outline" />
+          Contacts
+        </Menu.Item>
+        <Menu.Item>
+          <Icon name="user circle" />
+          Duc Mai
         </Menu.Item>
         <Menu.Item name="logout" active={activeItem === 'logout'} onClick={this.handleItemClick}>
           <Icon name="log out" />

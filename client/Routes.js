@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Switch, Route, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
-import { Login, Register, Export, Import } from './components';
+import { Login, Register, Export, Import, Inspect } from './components';
 
 const propTypes = {
 };
@@ -25,6 +25,7 @@ class Routes extends React.Component {
         <Route exact path="/register" component={Register} />
         <Route exact path="/import" component={Import} />
         <Route exact path="/export" component={Export} />
+        <Route exact path="/inspect" component={Inspect} />
       </Switch>
     );
   }
