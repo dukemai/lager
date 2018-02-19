@@ -4,7 +4,7 @@ import { List, Icon, Button, Segment, Divider } from 'semantic-ui-react';
 const BuyList = () => (
   <List relaxed>
     <List.Item>
-      <Segment>
+      <Segment color="green">
         <div>
           But Bi Thien Long
         </div>
@@ -28,7 +28,7 @@ const BuyList = () => (
       </Segment>
     </List.Item>
     <List.Item>
-      <Segment>
+      <Segment color="green">
         <div>
           But Xoa Thien Long
       </div>
