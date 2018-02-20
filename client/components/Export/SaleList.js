@@ -1,66 +1,34 @@
 import React from 'react';
-import { List, Icon, Button, Segment, Divider } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
 
 const SaleList = () => (
-  <List relaxed>
-    <List.Item>
-      <Segment>
-        <div>
-          But Bi Thien Long
-        </div>
-        <div>
-          Quantity: 2
-        </div>
-        <div>
-          Price: 2,000
-        </div>
-        <div>
-          Total: 4,000
-        </div>
-        <div>
-          <Button icon>
-            <Icon name="edit" />
-          </Button>
-          <Button icon>
-            <Icon name="remove" />
-          </Button>
-        </div>
-      </Segment>
-    </List.Item>
-    <List.Item>
-      <Segment>
-        <div>
-          But Xoa Thien Long
-      </div>
-        <div>
-          Quantity: 2
-      </div>
-        <div>
-          Price: 2,000
-      </div>
-        <div>
-          Total: 4,000
-      </div>
-        <div>
-          <Button icon>
-            <Icon name="edit" />
-          </Button>
-          <Button icon>
-            <Icon name="remove" />
-          </Button>
-        </div>
-      </Segment>
-    </List.Item>
-    <List.Item>
-      <Divider horizontal>Total</Divider>
-      <div>
-        Quantity: 4
-      </div>
-      <div>
-        Total: 16,000
-      </div>
-    </List.Item>
-  </List>
+  <Table stackable>
+    <Table.Header>
+      <Table.Row>
+        <Table.HeaderCell>Name</Table.HeaderCell>
+        <Table.HeaderCell>Status</Table.HeaderCell>
+        <Table.HeaderCell textAlign='right'>Notes</Table.HeaderCell>
+      </Table.Row>
+    </Table.Header>
+
+    <Table.Body>
+      <Table.Row>
+        <Table.Cell>John</Table.Cell>
+        <Table.Cell>Approved</Table.Cell>
+        <Table.Cell textAlign='right'>None</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>Jamie</Table.Cell>
+        <Table.Cell>Approved</Table.Cell>
+        <Table.Cell textAlign='right'>Requires call</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>Jill</Table.Cell>
+        <Table.Cell>Denied</Table.Cell>
+        <Table.Cell textAlign='right'>None</Table.Cell>
+      </Table.Row>
+    </Table.Body>
+  </Table>
 );
 
 export default SaleList;

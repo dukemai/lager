@@ -7,8 +7,8 @@ import bodyParser from 'body-parser';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import flash from 'connect-flash';
-
-import index from './routes/';
+import { connectDB } from './data';
+import index, { apiRouter } from './routes/';
 
 
 const app = express();
@@ -52,6 +52,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(flash());
 app.use('/', index);
+app.use('/api', apiRouter);
 
 
 // catch 404 and forward to error handler
@@ -72,5 +73,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+connectDB();
 
 module.exports = app;

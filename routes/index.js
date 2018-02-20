@@ -15,5 +15,6 @@ router.get('/healthcheck', (req, res, next) => {
   res.status(200).json({ health: 'ok' });
 });
 
-
 export default router;
+
+export { default as apiRouter } from './api';
