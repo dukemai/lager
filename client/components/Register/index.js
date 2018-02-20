@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import PropTypes from 'prop-types';
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
 import { Layout } from '../share';
 
@@ -8,7 +10,13 @@ import { registerAccount } from '../../server-interactions';
 
 import './styles.styl';
 
-export default class Register extends React.Component {
+class Register extends React.Component {
+  static propTypes = {
+    registerSucceeded: PropTypes.func,
+  }
+  static defaultProps = {
+    registerSucceeded: () => {},
+  }
   state = {
     isLoading: false,
     userName: 'mrducmv88@gmail.com',
@@ -49,6 +57,7 @@ export default class Register extends React.Component {
             isLoading: false,
             showFormError: false,
           });
+          this.props.registerSucceeded();
         })
         .catch((error) => {
           this.setState({
@@ -144,3 +153,14 @@ export default class Register extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+});
+
+const mapDispatchToProps = dispatch => ({
+  registerSucceeded: () => {
+    dispatch(push('/login'));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
