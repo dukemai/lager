@@ -1,24 +1,28 @@
 import axios from 'axios';
 
-export function registerAccount(userName, password, phoneNumber) {
+export function registerAccount(userName, password, phoneNumber, firstName, lastName) {
   return new Promise((resolve, reject) => {
     axios.post('/api/register', {
       userName,
       password,
       phoneNumber,
+      firstName,
+      lastName,
     })
       .then(res => resolve(res.data))
       .catch(res => reject(res));
   });
 }
 
-export function updateAccount(token, userName, password, oldPassword, phoneNumber) {
+export function updateAccount(token, userName, password, oldPassword, phoneNumber, firstName, lastName) {
   return new Promise((resolve, reject) => {
     axios.post('/api/update', {
       userName,
       password,
       oldPassword,
       phoneNumber,
+      firstName,
+      lastName,
     }, {
       headers: {
         Authorization: token,

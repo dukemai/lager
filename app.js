@@ -10,6 +10,7 @@ import flash from 'connect-flash';
 import { connectDB } from './data';
 import index, { apiRouter } from './routes/';
 
+import { configPassport } from './config';
 
 const app = express();
 
@@ -36,10 +37,10 @@ if (process.env.NODE_ENV === 'development') {
 /*
 Authenticate
 */
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
-// configPassport(passport);
+configPassport(passport);
 
 /*
 End Authenticate

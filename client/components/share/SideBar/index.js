@@ -1,26 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import { Menu, Icon, Image } from 'semantic-ui-react';
+import { Menu, Icon, Image, Dimmer, Loader } from 'semantic-ui-react';
 
 import SideBarItem from './SideBarItem';
 import './styles.styl';
 
 const propTypes = {
+  isAuthenticating: PropTypes.bool,
+  profile: PropTypes.shape({}),
 };
 const defaultProps = {
+  isAuthenticating: false,
+  profile: {},
 };
 
-export default class SideBar extends React.Component {
+class SideBar extends React.Component {
   static propTypes = propTypes
   static defaultProps = defaultProps
-  state = { activeItem: 'home' }
-
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   render() {
-    const { activeItem } = this.state;
-
+    const { isAuthenticating, profile } = this.props;
     return (
       <Menu inverted className="sideBar--main" icon="labeled" vertical>
         <Menu.Item>
@@ -30,12 +31,30 @@ export default class SideBar extends React.Component {
         <SideBarItem icon="truck" name="Import" path="/import" />
         <SideBarItem icon="archive" name="Inspect" path="/inspect" />
         <SideBarItem icon="address book outline" name="Contacts" path="/contacts" />
-        <SideBarItem icon="user circle" name="Duc Mai" path="/profile" />
-        <Menu.Item name="logout" active={activeItem === 'logout'} onClick={this.handleItemClick}>
+        <SideBarItem
+          icon="user circle"
+          name={profile ? `${profile.firstName} ${profile.lastName}` : ''}
+          path="/profile"
+          isLoading={isAuthenticating}
+        />
+        <Menu.Item name="logout" onClick={this.handleItemClick}>
           <Icon name="log out" />
+          <Dimmer active={isAuthenticating}>
+            <Loader active={isAuthenticating} />
+          </Dimmer>
           Logout
         </Menu.Item>
       </Menu>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  isAuthenticating: state.user.isAuthenticating,
+  profile: state.user.data,
+});
+
+const mapDispatchToProps = dispatch => ({
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

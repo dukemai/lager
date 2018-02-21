@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 
-import { Menu, Icon } from 'semantic-ui-react';
+import { Menu, Icon, Loader, Dimmer } from 'semantic-ui-react';
 
 const propTypes = {
   path: PropTypes.string,
@@ -11,6 +11,7 @@ const propTypes = {
   icon: PropTypes.string,
   onClick: PropTypes.func,
   isActive: PropTypes.bool,
+  isLoading: PropTypes.bool,
 };
 const defaultProps = {
   path: '',
@@ -18,14 +19,18 @@ const defaultProps = {
   icon: '',
   onClick: () => { },
   isActive: false,
+  isLoading: false,
 };
 
 const SideBarItem = ({
-  path, name, icon, onClick, isActive,
+  path, name, icon, onClick, isActive, isLoading,
 }) =>
   (
     <Menu.Item name={name} active={isActive} onClick={onClick}>
       <Icon name={icon} />
+      <Dimmer active={isLoading}>
+        <Loader inverted active={isLoading} />
+      </Dimmer>
       {name}
     </Menu.Item>
   );

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 import { Layout } from '../share';
 import { validateEmail, validatePassword } from '../../utilities';
-import { setToken } from '../../actions';
+import { setToken, authenticate } from '../../actions';
 import { login } from '../../server-interactions';
 
 import './styles.styl';
@@ -51,8 +51,8 @@ class Login extends React.Component {
         isLoading: true,
       });
       login(userName, password)
-        .then((token) => {
-          this.props.loginSucceeded(token);
+        .then((data) => {
+          this.props.loginSucceeded(data.token);
           this.setState({
             isLoading: false,
             showFormError: false,
@@ -148,6 +148,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   loginSucceeded: (token) => {
     dispatch(setToken(token));
+    dispatch(authenticate());
     requestAnimationFrame(() => {
       dispatch(push('/'));
     });

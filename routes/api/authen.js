@@ -12,11 +12,7 @@ const isRequestAuthenticated = (req) => {
 };
 
 router.get('/authen', passport.authenticate('jwt', { session: false }), (req, res) => {
-  const user = req.user ? {
-    userName: req.user.userName,
-    phoneNumber: req.user.phoneNumber,
-    contacts: req.user.contacts,
-  } : {};
+  const user = req.user ? req.user : {};
   res.json({
     isAuthenticated: user !== null && isRequestAuthenticated(req),
     user,
@@ -77,7 +73,9 @@ router.get('/logout', (req, res) => {
 });
 
 router.post('/register', (req, res, next) => {
-  const { userName, password, phoneNumber } = req.body;
+  const {
+    userName, password, phoneNumber, firstName, lastName,
+  } = req.body;
   if (!userName || !password) {
     res.status(400).json({
       created: false,
@@ -95,6 +93,8 @@ router.post('/register', (req, res, next) => {
           password,
           phoneNumber,
           isActivated: true,
+          firstName,
+          lastName,
         });
         // save the user
         newAccount

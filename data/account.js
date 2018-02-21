@@ -8,6 +8,8 @@ const Account = new Schema({
   password: String,
   phoneNumber: String,
   isActivated: Boolean,
+  firstName: String,
+  lastName: String,
 });
 /*eslint-disable */
 Account.pre('save', function(next) {

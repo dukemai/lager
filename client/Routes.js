@@ -5,16 +5,19 @@ import { Switch, Route, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 import { Login, Register, Export, Import, Inspect } from './components';
+import { authenticate } from './actions';
 
 const propTypes = {
+  onComponentwillMount: PropTypes.func,
 };
 
 const defaultProps = {
-
+  onComponentwillMount: () => {},
 };
 
 class Routes extends React.Component {
   componentWillMount() {
+    this.props.onComponentwillMount();
   }
   componentWillReceiveProps(nextProps) {
   }
@@ -35,7 +38,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-
+  onComponentwillMount: () => {
+    dispatch(authenticate());
+  },
 });
 
 Routes.propTypes = propTypes;

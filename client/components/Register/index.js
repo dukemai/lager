@@ -15,13 +15,15 @@ class Register extends React.Component {
     registerSucceeded: PropTypes.func,
   }
   static defaultProps = {
-    registerSucceeded: () => {},
+    registerSucceeded: () => { },
   }
   state = {
     isLoading: false,
     userName: 'mrducmv88@gmail.com',
     password: '12345678',
     phoneNumber: '123',
+    firstName: 'Duc',
+    lastName: 'Mai',
     isUserNameError: false,
     isPasswordError: false,
     isPhoneNumberError: false,
@@ -42,7 +44,7 @@ class Register extends React.Component {
 
     requestAnimationFrame(() => {
       const {
-        userName, password, phoneNumber,
+        userName, password, phoneNumber, firstName, lastName,
         isPasswordError, isPhoneNumberError, isUserNameError,
       } = this.state;
       if (isPasswordError || isPhoneNumberError || isUserNameError) {
@@ -51,7 +53,7 @@ class Register extends React.Component {
       this.setState({
         isLoading: true,
       });
-      registerAccount(userName, password, phoneNumber)
+      registerAccount(userName, password, phoneNumber, firstName, lastName)
         .then((account) => {
           this.setState({
             isLoading: false,
@@ -82,8 +84,8 @@ class Register extends React.Component {
     const {
       userName, password, phoneNumber, isLoading,
       isPasswordError, isPhoneNumberError, isUserNameError, showFormError,
+      firstName, lastName,
     } = this.state;
-    console.log(userName);
     return (
       <Layout>
         <div className="registerForm">
@@ -99,6 +101,20 @@ class Register extends React.Component {
               </Header>
               <Form error={showFormError} loading={isLoading} size="large" className="registerForm__content">
                 <Segment stacked>
+                  <Form.Group widths="equal">
+                    <Form.Input
+                      fluid
+                      placeholder="First name"
+                      value={firstName}
+                      onChange={(e) => { this.onInputChanged('firstName', e.target.value); }}
+                    />
+                    <Form.Input
+                      fluid
+                      placeholder="Last name"
+                      value={lastName}
+                      onChange={(e) => { this.onInputChanged('lastName', e.target.value); }}
+                    />
+                  </Form.Group>
                   <Form.Input
                     fluid
                     icon="user"

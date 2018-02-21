@@ -3,7 +3,8 @@ import { AUTHENTICATING, AUTHENTICATED, UNAUTHENTICATED, LOG_OUT } from '../acti
 const DEFAULT_USER = {
   userName: '',
   phoneNumber: '',
-  contacts: [],
+  firstName: '',
+  lastName: '',
 };
 const INITIAL_STATES = {
   isAuthenticating: false,
@@ -31,13 +32,6 @@ export default function app(state = INITIAL_STATES, action) {
         ...state,
         isAuthenticating: false,
         data: DEFAULT_USER,
-      };
-    }
-    case UPDATE_CONTACT: {
-      const { data } = action;
-      return {
-        ...state,
-        data: data.user,
       };
     }
     case LOG_OUT: {
