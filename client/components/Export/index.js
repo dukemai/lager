@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Header, Grid, Tab, Segment } from 'semantic-ui-react';
+import { Header, Grid, Tab } from 'semantic-ui-react';
 
 import { AuthenticatedLayout } from '../share';
 import SaleForm from './SaleForm';
