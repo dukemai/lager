@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Switch, Route, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
-import { Login, Register, Export, Import, Inspect, Profile, Contacts } from './components';
+import { Login, Register, Export, Import, Inspect, Profile, Contacts, ProductInStock } from './components';
 import { AuthenticatedRoute } from './components/share';
 
 import { authenticate } from './actions';
@@ -33,6 +33,7 @@ class Routes extends React.Component {
         <AuthenticatedRoute exact path="/inspect" component={Inspect} />
         <AuthenticatedRoute exact path="/profile" component={Profile} />
         <AuthenticatedRoute exact path="/contacts" component={Contacts} />
+        <AuthenticatedRoute exact path="/inspect/new-product" component={ProductInStock} />
       </Switch>
     );
   }

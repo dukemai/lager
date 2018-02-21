@@ -1,43 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Menu, Icon, Grid, Header, Table, Label, Sidebar, Segment, Image, Form, Button } from 'semantic-ui-react';
+import { push } from 'react-router-redux';
+import { connect } from 'react-redux';
+
+import { Menu, Icon, Grid, Header, Table } from 'semantic-ui-react';
 
 import { AuthenticatedLayout } from '../share';
+import './styles.styl';
 
 const propTypes = {
+  newStockProductClicked: PropTypes.func,
+  newStockCompanyClicked: PropTypes.func,
 };
 const defaultProps = {
+  newStockCompanyClicked: () => {},
+  newStockProductClicked: () => {},
 };
 
 class Inspect extends React.Component {
   static propTypes = propTypes;
   static defaultProps = defaultProps;
 
-  state = { activeIndex: 0, visible: false, }
-
-  handleClick = (e, titleProps) => {
-    const { index } = titleProps;
-    const { activeIndex } = this.state;
-    const newIndex = activeIndex === index ? -1 : index;
-
-    this.setState({ activeIndex: newIndex });
+  state = {
   }
-  handleItemClick = () => {
-    this.setState({
-      visible: !this.state.visible,
-    })
-  }
+
   render() {
-    const { activeItem, visible } = this.state;
+    const { newStockProductClicked, newStockCompanyClicked } = this.props;
     return (
       <AuthenticatedLayout>
         <Menu icon>
           <Menu.Menu position="right">
-            <Menu.Item name="signup" active={activeItem === 'signup'} onClick={this.handleItemClick}>
+            <Menu.Item onClick={newStockProductClicked}>
               <Icon name="plus" />
               Add Product
             </Menu.Item>
-            <Menu.Item name="signup" active={activeItem === 'signup'} onClick={this.handleItemClick}>
+            <Menu.Item onClick={newStockCompanyClicked}>
               <Icon name="user plus" />
               Add Company
             </Menu.Item>
@@ -53,75 +50,56 @@ class Inspect extends React.Component {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column textAlign="left" width="16">
-              <Sidebar.Pushable as={Segment}>
-                <Sidebar inverted direction='right' animation='overlay' width="very wide" as={Segment} visible={visible} icon='labeled' vertical inverted>
-                  <Segment inverted>
-                  <Form inverted>
-                    <Form.Field>
-                      <label>First Name</label>
-                      <input placeholder='First Name' />
-                    </Form.Field>
-                    <Form.Field>
-                      <label>Last Name</label>
-                      <input placeholder='Last Name' />
-                    </Form.Field>
-                    <Button type='submit'>Submit</Button>
-                  </Form>
-                  </Segment>
-                </Sidebar>
-                <Sidebar.Pusher>
-                  <Segment basic>
-                    <Table celled>
-                      <Table.Header>
-                        <Table.Row>
-                          <Table.HeaderCell>Header</Table.HeaderCell>
-                          <Table.HeaderCell>Header</Table.HeaderCell>
-                          <Table.HeaderCell>Header</Table.HeaderCell>
-                        </Table.Row>
-                      </Table.Header>
+              <Table className="inspectScreen__table" celled>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>Product code</Table.HeaderCell>
+                    <Table.HeaderCell>Product title</Table.HeaderCell>
+                    <Table.HeaderCell>Category</Table.HeaderCell>
+                    <Table.HeaderCell>Quantity</Table.HeaderCell>
+                    <Table.HeaderCell>Unit</Table.HeaderCell>
+                    <Table.HeaderCell>Import Price</Table.HeaderCell>
+                    <Table.HeaderCell>Price</Table.HeaderCell>
+                    <Table.HeaderCell>Distributor</Table.HeaderCell>
+                    <Table.HeaderCell>Date</Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
 
-                      <Table.Body>
-                        <Table.Row>
-                          <Table.Cell>
-                            <Label ribbon>First</Label>
-                          </Table.Cell>
-                          <Table.Cell>Cell</Table.Cell>
-                          <Table.Cell>Cell</Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                          <Table.Cell>Cell</Table.Cell>
-                          <Table.Cell>Cell</Table.Cell>
-                          <Table.Cell>Cell</Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                          <Table.Cell>Cell</Table.Cell>
-                          <Table.Cell>Cell</Table.Cell>
-                          <Table.Cell>Cell</Table.Cell>
-                        </Table.Row>
-                      </Table.Body>
+                <Table.Body>
+                  <Table.Row>
+                    <Table.Cell>
+                      TL027
+                    </Table.Cell>
+                    <Table.Cell>Thien Long 027</Table.Cell>
+                    <Table.Cell>But</Table.Cell>
+                    <Table.Cell>10</Table.Cell>
+                    <Table.Cell>Thung</Table.Cell>
+                    <Table.Cell>3.000</Table.Cell>
+                    <Table.Cell>4.000</Table.Cell>
+                    <Table.Cell>Thien Long</Table.Cell>
+                    <Table.Cell>Feb-21 22.38</Table.Cell>
+                  </Table.Row>
+                </Table.Body>
 
-                      <Table.Footer>
-                        <Table.Row>
-                          <Table.HeaderCell colSpan='3'>
-                            <Menu floated='right' pagination>
-                              <Menu.Item as='a' icon>
-                                <Icon name='left chevron' />
-                              </Menu.Item>
-                              <Menu.Item as='a'>1</Menu.Item>
-                              <Menu.Item as='a'>2</Menu.Item>
-                              <Menu.Item as='a'>3</Menu.Item>
-                              <Menu.Item as='a'>4</Menu.Item>
-                              <Menu.Item as='a' icon>
-                                <Icon name='right chevron' />
-                              </Menu.Item>
-                            </Menu>
-                          </Table.HeaderCell>
-                        </Table.Row>
-                      </Table.Footer>
-                    </Table>
-                  </Segment>
-                </Sidebar.Pusher>
-              </Sidebar.Pushable>
+                <Table.Footer>
+                  <Table.Row>
+                    <Table.HeaderCell colSpan="9">
+                      <Menu floated='right' pagination>
+                        <Menu.Item as='a' icon>
+                          <Icon name='left chevron' />
+                        </Menu.Item>
+                        <Menu.Item as='a'>1</Menu.Item>
+                        <Menu.Item as='a'>2</Menu.Item>
+                        <Menu.Item as='a'>3</Menu.Item>
+                        <Menu.Item as='a'>4</Menu.Item>
+                        <Menu.Item as='a' icon>
+                          <Icon name='right chevron' />
+                        </Menu.Item>
+                      </Menu>
+                    </Table.HeaderCell>
+                  </Table.Row>
+                </Table.Footer>
+              </Table>
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -132,4 +110,17 @@ class Inspect extends React.Component {
 
 Inspect.propTypes = propTypes;
 Inspect.defaultProps = defaultProps;
-export default Inspect;
+
+const mapStateToProps = state => ({
+});
+
+const mapDispatchToProps = dispatch => ({
+  newStockProductClicked: () => {
+    dispatch(push('/inspect/new-product'));
+  },
+  newStockCompanyClicked: () => {
+    dispatch(push('/inspect/new-company'));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Inspect);
