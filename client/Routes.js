@@ -5,6 +5,8 @@ import { Switch, Route, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 import { Login, Register, Export, Import, Inspect } from './components';
+import { AuthenticatedRoute} from './components/share';
+
 import { authenticate } from './actions';
 
 const propTypes = {
@@ -24,11 +26,11 @@ class Routes extends React.Component {
   render() {
     return (
       <Switch>
-        <Route exact path="/" component={Export} />
+        <AuthenticatedRoute exact path="/" component={Export} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
-        <Route exact path="/import" component={Import} />
-        <Route exact path="/inspect" component={Inspect} />
+        <AuthenticatedRoute exact path="/import" component={Import} />
+        <AuthenticatedRoute exact path="/inspect" component={Inspect} />
       </Switch>
     );
   }
