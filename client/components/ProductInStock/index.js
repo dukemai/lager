@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Header, Breadcrumb, Form } from 'semantic-ui-react';
+import { Header, Grid, Tab, Breadcrumb, Checkbox, List, Segment } from 'semantic-ui-react';
+
+import ManufacturerForm from './ManufacturerForm';
+import ProductForm from './ProductForm';
+import DistributorForm from './DistributorForm';
 
 import { AuthenticatedLayout } from '../share';
-
 
 const propTypes = {
 };
@@ -17,9 +20,18 @@ const sections = [
   { key: 'new-product', content: 'Add product', active: true },
 ];
 
-class ProductInStock extends React.Component {
-  state = {
+export default class ProductInStock extends React.Component {
+  static propTypes = propTypes;
+  static defaultProps = defaultProps;
 
+  state = { activeIndex: 0 }
+
+  handleClick = (e, titleProps) => {
+    const { index } = titleProps;
+    const { activeIndex } = this.state;
+    const newIndex = activeIndex === index ? -1 : index;
+
+    this.setState({ activeIndex: newIndex });
   }
   render() {
     return (
@@ -29,35 +41,58 @@ class ProductInStock extends React.Component {
             <Grid.Column textAlign="left" width="16">
               <Breadcrumb sections={sections} />
               <Header textAlign="left" as="h2">
-                Add new product to Stock
+                New product to stock
               </Header>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
             <Grid.Column textAlign="left" width="10">
-              <Form>
-                <Form.Group widths="equal">
-                  <Form.Input fluid label="Product code" placeholder="Product code" />
-                  <Form.Input fluid label="Product name" placeholder="Product name" />
-                </Form.Group>
-                <Form.Input fluid label="Product category" placeholder="Product category" />
-                <Form.Group widths="equal">
-                  <Form.Input fluid label="Product price" placeholder="Product price" />
-                  <Form.Input fluid label="Product quantity" placeholder="Product quantity" />
-                </Form.Group>
-                <Form.Input fluid label="Product unit" placeholder="Product unit" />
-                <Form.Input fluid label="Date time" placeholder="Date time" />
-                <Form.Group widths="equal">
-                  <Form.Input fluid label="Contact name" placeholder="Contact name" />
-                </Form.Group>
-                <Form.Input fluid label="Phone number" placeholder="Phone number" />
-                <Form.Input fluid label="Email" placeholder="Email" />
-                <Form.Input fluid label="Address" placeholder="Address" />
-                <Form.Input fluid label="Company" placeholder="Company" />
-                <Form.Input fluid label="Tax" placeholder="Tax" />
-                <Form.Checkbox label="I agree to the Terms and Conditions" />
-                <Form.Button>Submit</Form.Button>
-              </Form>
+              <Tab
+                menu={{
+                  pointing: true,
+                }}
+                panes={[
+                  {
+                    menuItem: 'Manufacturer Information',
+                    render: () => (
+                      <Tab.Pane attached={false}>
+                        <ManufacturerForm />
+                      </Tab.Pane>
+                    ),
+                  },
+                  {
+                    menuItem: 'Distributor Information',
+                    render: () => (
+                      <Tab.Pane attached={false}>
+                        <DistributorForm />
+                      </Tab.Pane>
+                    ),
+                  },
+                  {
+                    menuItem: 'Product Information',
+                    render: () => (
+                      <Tab.Pane attached={false}>
+                        <ProductForm />
+                      </Tab.Pane>
+                    ),
+                  },
+                ]}
+              />
+            </Grid.Column>
+            <Grid.Column width="4">
+              <Segment inverted color="olive">
+                <List>
+                  <List.Item>
+                    <Checkbox toggle label="Remember company" />
+                  </List.Item>
+                  <List.Item>
+                    <Checkbox toggle label="Remember distributor" />
+                  </List.Item>
+                  <List.Item>
+                    <Checkbox toggle label="Remember category" />
+                  </List.Item>
+                </List>
+              </Segment>
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -66,6 +101,3 @@ class ProductInStock extends React.Component {
   }
 }
 
-ProductInStock.propTypes = propTypes;
-ProductInStock.defaultProps = defaultProps;
-export default ProductInStock;
