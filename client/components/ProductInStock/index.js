@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Header, Grid, Tab, Breadcrumb, Checkbox, List,
+  Header, Grid, Tab, Checkbox, List,
   Segment, Divider, Progress, Button, Sticky,
+  Icon,
 } from 'semantic-ui-react';
 
 import ManufacturerForm from './ManufacturerForm';
@@ -15,13 +16,6 @@ const propTypes = {
 };
 const defaultProps = {
 };
-
-const sections = [
-  {
-    key: 'inspect', content: 'Inspect', href: '/inspect',
-  },
-  { key: 'new-product', content: 'Add product', active: true },
-];
 
 export default class ProductInStock extends React.Component {
   static propTypes = propTypes;
@@ -52,9 +46,10 @@ export default class ProductInStock extends React.Component {
         <Grid padded>
           <Grid.Row>
             <Grid.Column textAlign="left" width="16">
-              <Breadcrumb sections={sections} />
               <Header textAlign="left" as="h2">
-                New product to stock
+                <Header.Content>
+                  New product to stock
+                </Header.Content>
               </Header>
             </Grid.Column>
           </Grid.Row>

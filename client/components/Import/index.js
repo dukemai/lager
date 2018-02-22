@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Header, Grid, Tab } from 'semantic-ui-react';
+import { Header, Grid, Tab, Sticky, Segment, Button, Icon } from 'semantic-ui-react';
 
 import DistributorForm from './DistributorForm';
 import BuyForm from './BuyForm';
@@ -39,7 +39,7 @@ export default class Import extends React.Component {
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
-            <Grid.Column textAlign="left" width="8">
+            <Grid.Column textAlign="left" width="6">
               <Tab
                 menu={{
                   pointing: true,
@@ -64,8 +64,18 @@ export default class Import extends React.Component {
                 ]}
               />
             </Grid.Column>
-            <Grid.Column textAlign="left" width="8">
+            <Grid.Column textAlign="left" width="6">
               <BuyList />
+            </Grid.Column>
+            <Grid.Column width="4">
+              <Sticky>
+                <Segment color="olive">
+                  <Button icon color="teal" labelPosition="left">
+                    <Icon name="print" />
+                    Print
+                  </Button>
+                </Segment>
+              </Sticky>
             </Grid.Column>
           </Grid.Row>
         </Grid>
