@@ -7,7 +7,7 @@ export default class ManufacturerForm extends Component {
     onNextClicked: PropTypes.func,
   }
   static defaultProps = {
-    onNextClicked: () => {},
+    onNextClicked: () => { },
   }
   state = { activeIndex: -1 }
 
@@ -35,12 +35,16 @@ export default class ManufacturerForm extends Component {
           <Accordion.Content active={activeIndex === 0}>
             <Form.Group widths="equal">
               <Form.Input fluid label="Contact name" placeholder="Contact name" />
+              <Form.Input fluid label="Phone number" placeholder="Phone number" />
             </Form.Group>
-            <Form.Input fluid label="Phone number" placeholder="Phone number" />
-            <Form.Input fluid label="Email" placeholder="Email" />
-            <Form.Input fluid label="Address" placeholder="Address" />
-            <Form.Input fluid label="Tax" placeholder="Tax" />
-            <Form.Input fluid label="Website" placeholder="Website" />
+            <Form.Group widths="equal">
+              <Form.Input fluid label="Email" placeholder="Email" />
+              <Form.Input fluid label="Address" placeholder="Address" />
+            </Form.Group>
+            <Form.Group widths="equal">
+              <Form.Input fluid label="Tax" placeholder="Tax" />
+              <Form.Input fluid label="Website" placeholder="Website" />
+            </Form.Group>
           </Accordion.Content>
         </Accordion>
         <Divider />

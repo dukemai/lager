@@ -2,15 +2,15 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
-const Company = new Schema({
+const Distributor = new Schema({
   name: String,
   phoneNumber: String,
   email: String,
   address: String,
   tax: String,
   website: String,
-  distributors: Array,
+  manufacturers: Array,
 });
 
-export default mongoose.model('Company', Company);
+export default mongoose.model('Distributor', Distributor);
 

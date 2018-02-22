@@ -68,7 +68,8 @@
     "serve-favicon": "~2.4.2",
     "socket.io": "^2.0.4",
     "socket.io-client": "^2.0.4",
-    "socketio-jwt": "^4.5.0"
+    "socketio-jwt": "^4.5.0",
+    "validatorjs": "^3.14.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
