@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 
-import { Menu, Icon, Grid, Header, Table } from 'semantic-ui-react';
+import { Menu, Icon, Grid, Header, Table, Sticky, Segment, Progress, Checkbox, Button, Divider } from 'semantic-ui-react';
 
 import { AuthenticatedLayout } from '../share';
 import './styles.styl';
@@ -28,28 +28,16 @@ class Inspect extends React.Component {
     const { newStockProductClicked, newStockCompanyClicked } = this.props;
     return (
       <AuthenticatedLayout>
-        <Menu icon>
-          <Menu.Menu position="right">
-            <Menu.Item onClick={newStockProductClicked}>
-              <Icon name="plus" />
-              Add Product
-            </Menu.Item>
-            <Menu.Item onClick={newStockCompanyClicked}>
-              <Icon name="user plus" />
-              Add Company
-            </Menu.Item>
-          </Menu.Menu>
-        </Menu>
         <Grid padded>
           <Grid.Row>
-            <Grid.Column textAlign="left" width="16">
+            <Grid.Column textAlign="left" width="12">
               <Header textAlign="left" as="h2">
                 Stock
               </Header>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
-            <Grid.Column textAlign="left" width="16">
+            <Grid.Column textAlign="left" width="12">
               <Table className="inspectScreen__table" celled>
                 <Table.Header>
                   <Table.Row>
@@ -100,6 +88,21 @@ class Inspect extends React.Component {
                   </Table.Row>
                 </Table.Footer>
               </Table>
+            </Grid.Column>
+            <Grid.Column width="4">
+              <Sticky>
+                <Segment color="olive">
+                  <Button onClick={newStockProductClicked} icon positive labelPosition="left">
+                    <Icon name="plus" />
+                    Product
+                  </Button>
+                  <Divider />
+                  <Button onClick={newStockCompanyClicked} color="teal" icon labelPosition="left">
+                    <Icon name="plus" />
+                    Company
+                  </Button>
+                </Segment>
+              </Sticky>
             </Grid.Column>
           </Grid.Row>
         </Grid>

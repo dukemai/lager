@@ -2,18 +2,8 @@ import React, { Component } from 'react';
 import { Form, Accordion, Icon, Button, Segment, Divider } from 'semantic-ui-react';
 
 export default class BuyForm extends Component {
-  state = { activeIndex: -1 }
-
-  handleClick = (e, titleProps) => {
-    const { index } = titleProps;
-    const { activeIndex } = this.state;
-    const newIndex = activeIndex === index ? -1 : index;
-
-    this.setState({ activeIndex: newIndex });
-  }
-
+  state = {}
   render() {
-    const { activeIndex } = this.state;
     return (
       <Form>
         <Form.Group widths="equal">
@@ -21,17 +11,15 @@ export default class BuyForm extends Component {
           <Form.Input fluid label="Product code" placeholder="Product code" />
         </Form.Group>
         <Form.Group widths="equal">
-          <Form.Input fluid label="Product price" placeholder="Product price" />
-          <Form.Input fluid label="Product quality" placeholder="Product quality" />
+          <Form.Input fluid label="Product quantity" placeholder="Product quantity" />
+          <Form.Input fluid label="Product unit" placeholder="Product unit" />
         </Form.Group>
-        <Form.Input fluid label="Product image" placeholder="Product image" />
+        <Form.Group widths="equal">
+          <Form.Input fluid label="Product price" placeholder="Product price" />
+          <Form.Input fluid label="Product retail price" placeholder="Product retail price" />
+        </Form.Group>
         <Form.Input fluid label="Product category" placeholder="Product category" />
-        <Form.Input fluid label="Producer" placeholder="Producer" />
-        <Form.Input fluid label="Distributor" placeholder="Distributor" />
-        <Divider />
-        <Button positive>
-          Save
-        </Button>
+        <Form.Input fluid label="Product image" type="file" placeholder="Product image" />
       </Form>
     );
   }

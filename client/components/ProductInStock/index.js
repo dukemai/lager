@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Header, Grid, Tab, Breadcrumb, Checkbox, List, Segment } from 'semantic-ui-react';
+import {
+  Header, Grid, Tab, Breadcrumb, Checkbox, List,
+  Segment, Divider, Progress, Button, Sticky,
+} from 'semantic-ui-react';
 
 import ManufacturerForm from './ManufacturerForm';
 import ProductForm from './ProductForm';
@@ -15,7 +18,7 @@ const defaultProps = {
 
 const sections = [
   {
-    key: 'inspect', content: 'Inspect', link: true, href: '/inspect',
+    key: 'inspect', content: 'Inspect', href: '/inspect',
   },
   { key: 'new-product', content: 'Add product', active: true },
 ];
@@ -25,7 +28,16 @@ export default class ProductInStock extends React.Component {
   static defaultProps = defaultProps;
 
   state = { activeIndex: 0 }
-
+  onTabChanged = (event, data) => {
+    this.setState({
+      activeIndex: data.activeIndex,
+    });
+  }
+  onNextTabClicked = () => {
+    this.setState({
+      activeIndex: this.state.activeIndex + 1,
+    });
+  }
   handleClick = (e, titleProps) => {
     const { index } = titleProps;
     const { activeIndex } = this.state;
@@ -34,6 +46,7 @@ export default class ProductInStock extends React.Component {
     this.setState({ activeIndex: newIndex });
   }
   render() {
+    const { activeIndex } = this.state;
     return (
       <AuthenticatedLayout>
         <Grid padded>
@@ -46,8 +59,10 @@ export default class ProductInStock extends React.Component {
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
-            <Grid.Column textAlign="left" width="10">
+            <Grid.Column textAlign="left" width="12">
               <Tab
+                activeIndex={activeIndex}
+                onTabChange={this.onTabChanged}
                 menu={{
                   pointing: true,
                 }}
@@ -55,23 +70,23 @@ export default class ProductInStock extends React.Component {
                   {
                     menuItem: 'Manufacturer Information',
                     render: () => (
-                      <Tab.Pane attached={false}>
-                        <ManufacturerForm />
+                      <Tab.Pane color="teal" attached={false}>
+                        <ManufacturerForm onNextClicked={this.onNextTabClicked} />
                       </Tab.Pane>
                     ),
                   },
                   {
                     menuItem: 'Distributor Information',
                     render: () => (
-                      <Tab.Pane attached={false}>
-                        <DistributorForm />
+                      <Tab.Pane color="green" attached={false}>
+                        <DistributorForm onNextClicked={this.onNextTabClicked} />
                       </Tab.Pane>
                     ),
                   },
                   {
                     menuItem: 'Product Information',
                     render: () => (
-                      <Tab.Pane attached={false}>
+                      <Tab.Pane color="violet" attached={false}>
                         <ProductForm />
                       </Tab.Pane>
                     ),
@@ -80,19 +95,33 @@ export default class ProductInStock extends React.Component {
               />
             </Grid.Column>
             <Grid.Column width="4">
-              <Segment inverted color="olive">
-                <List>
-                  <List.Item>
-                    <Checkbox toggle label="Remember company" />
-                  </List.Item>
-                  <List.Item>
-                    <Checkbox toggle label="Remember distributor" />
-                  </List.Item>
-                  <List.Item>
-                    <Checkbox toggle label="Remember category" />
-                  </List.Item>
-                </List>
-              </Segment>
+              <Sticky>
+                <Segment color="olive">
+                  <Button positive>
+                    Save Product
+                  </Button>
+                </Segment>
+                <Segment color="olive">
+                  <List>
+                    <List.Item>
+                      <Checkbox label="Remember company" />
+                      <Divider />
+                    </List.Item>
+                    <List.Item>
+                      <Checkbox label="Remember distributor" />
+                      <Divider />
+                    </List.Item>
+                    <List.Item>
+                      <Checkbox label="Remember category" />
+                    </List.Item>
+                  </List>
+                </Segment>
+                <Segment>
+                  <Progress color="blue" size="small" percent={33.3} active>
+                    Creating product
+                  </Progress>
+                </Segment>
+              </Sticky>
             </Grid.Column>
           </Grid.Row>
         </Grid>

@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Form, Accordion, Icon, Button, Divider } from 'semantic-ui-react';
 
 export default class ManufacturerForm extends Component {
+  static propTypes = {
+    onNextClicked: PropTypes.func,
+  }
+  static defaultProps = {
+    onNextClicked: () => {},
+  }
   state = { activeIndex: -1 }
 
   handleClick = (e, titleProps) => {
@@ -14,6 +21,7 @@ export default class ManufacturerForm extends Component {
 
   render() {
     const { activeIndex } = this.state;
+    const { onNextClicked } = this.props;
     return (
       <Form>
         <Form.Group widths="equal">
@@ -36,7 +44,7 @@ export default class ManufacturerForm extends Component {
           </Accordion.Content>
         </Accordion>
         <Divider />
-        <Button positive>
+        <Button onClick={onNextClicked} positive>
           Next
           <Icon name="right arrow" />
         </Button>
