@@ -1,16 +1,38 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Accordion, Icon, Button, Divider } from 'semantic-ui-react';
+import { Form, Accordion, Icon, Button, Divider, Dropdown, Label } from 'semantic-ui-react';
+
+import { AutoComplete } from '../share';
 
 export default class ManufacturerForm extends Component {
   static propTypes = {
     onNextClicked: PropTypes.func,
+    companyName: PropTypes.string,
   }
   static defaultProps = {
     onNextClicked: () => { },
+    companyName: '',
   }
-  state = { activeIndex: -1 }
-
+  state = {
+    activeIndex: -1,
+    isSaving: false,
+    companyName: '',
+    companies: [],
+    isReadOnly: false,
+  }
+  onNewCompanyAdded = (e, { value }) => {
+    const companyName = value;
+    this.setState({
+      companyName,
+      companies: [...this.state.companies, {
+        key: companyName,
+        text: companyName,
+        value: companyName,
+      }],
+      activeIndex: 0,
+      isReadOnly: true,
+    });
+  }
   handleClick = (e, titleProps) => {
     const { index } = titleProps;
     const { activeIndex } = this.state;
@@ -18,14 +40,36 @@ export default class ManufacturerForm extends Component {
 
     this.setState({ activeIndex: newIndex });
   }
-
+  nextClicked = () => {
+    this.setState({
+      isSaving: true,
+    });
+  }
   render() {
-    const { activeIndex } = this.state;
+    const {
+      activeIndex, isSaving, companyName, companies, isReadOnly
+    } = this.state;
     const { onNextClicked } = this.props;
     return (
       <Form>
-        <Form.Group widths="equal">
-          <Form.Input fluid label="Company name" placeholder="Company name" />
+        <Form.Group widths="2">
+          <Form.Field>
+            <label>Company name</label>
+            <AutoComplete
+              allowAdditions
+              additionLabel="Add "
+              placeholder="Company name"
+              fluid
+              search
+              selection
+              options={companies}
+              noResultsMessage="No company found"
+              value={companyName}
+              onAddItem={this.onNewCompanyAdded}
+              deburr
+              readOnly
+            />
+          </Form.Field>
         </Form.Group>
         <Accordion>
           <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
@@ -42,13 +86,23 @@ export default class ManufacturerForm extends Component {
               <Form.Input fluid label="Address" placeholder="Address" />
             </Form.Group>
             <Form.Group widths="equal">
-              <Form.Input fluid label="Tax" placeholder="Tax" />
-              <Form.Input fluid label="Website" placeholder="Website" />
+              <Form.Input
+                disabled={isSaving}
+                fluid
+                label="Tax"
+                placeholder="Tax"
+              />
+              <Form.Input
+                fluid
+                label="Website"
+                placeholder="Website"
+                disabled={isSaving}
+              />
             </Form.Group>
           </Accordion.Content>
         </Accordion>
         <Divider />
-        <Button onClick={onNextClicked} positive>
+        <Button loading={isSaving} onClick={this.nextClicked} positive>
           Next
           <Icon name="right arrow" />
         </Button>

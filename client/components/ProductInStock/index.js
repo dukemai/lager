@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
   Header, Grid, Tab, Checkbox, List,
   Segment, Divider, Progress, Button, Sticky,
-  Icon,
 } from 'semantic-ui-react';
 
 import ManufacturerForm from './ManufacturerForm';
