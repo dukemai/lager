@@ -8,11 +8,13 @@ const propTypes = {
   isSingleChoice: PropTypes.bool,
   value: PropTypes.any,
   onChange: PropTypes.func,
+  onClear: PropTypes.func,
 };
 const defaultProps = {
   isSingleChoice: true,
   value: null,
   onChange: () => {},
+  onClear: () => {},
 };
 
 class AutoComplete extends React.Component {
@@ -31,10 +33,12 @@ class AutoComplete extends React.Component {
     this.setState({
       isReadOnly: false,
     });
+    this.props.onClear();
   }
   render() {
     const componentProps = { ...this.props };
     delete componentProps.isSingleChoice;
+    delete componentProps.onClear;
     return (
       <IfComponent
         condition={this.state.isReadOnly}

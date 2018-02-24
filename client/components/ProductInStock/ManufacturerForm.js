@@ -84,25 +84,42 @@ class ManufacturerForm extends Component {
     const { value } = data;
     const { companySources, companies } = this.state;
     const company = find(companies, { value });
-    const source = find(companySources, { _id: value });
-    if (source) {
-      this.setState({
-        companyId: value,
-        companyName: company.text,
-        contactName: source.contactName,
-        companyPhoneNumber: source.phoneNumber,
-        companyEmail: source.email,
-        companyAddress: source.address,
-        companyTax: source.tax,
-        companyWebsite: source.website,
-        isNewCompany: false,
-      });
+    if (company) {
+      this.populateCompanyInfo(value, companySources, company.text);
     } else {
       this.setState({
         companyId: value,
         companyName: value,
       });
     }
+  }
+  populateCompanyInfo = (companyId, companySources, companyName) => {
+    if (companySources && companyId) {
+      const source = find(companySources, { _id: companyId });
+      if (source) {
+        this.setState({
+          companyId,
+          companyName,
+          contactName: source.contactName,
+          companyPhoneNumber: source.phoneNumber,
+          companyEmail: source.email,
+          companyAddress: source.address,
+          companyTax: source.tax,
+          companyWebsite: source.website,
+          isNewCompany: false,
+        });
+      } else {
+        this.setState({
+          companyId,
+          companyName,
+        });
+      }
+    }
+  }
+  resetCompanySelection = () => {
+    this.setState({
+      ...this.initialCompanyState,
+    });
   }
   loadCompanies = (token) => {
     if (token) {
@@ -121,6 +138,8 @@ class ManufacturerForm extends Component {
             companies,
             companySources: response.companies,
           });
+          const { companyId, companyName } = this.state;
+          this.populateCompanyInfo(companyId, response.companies, companyName);
         })
         .catch((error) => {
           this.setState({
@@ -155,6 +174,7 @@ class ManufacturerForm extends Component {
           this.setState({
             isSaving: false,
           });
+          this.props.setCompanyInformation(response.company._id, companyName);
           this.props.onNextClicked();
         })
         .catch((error) => {
@@ -171,6 +191,7 @@ class ManufacturerForm extends Component {
       companyEmail, companyTax, companyWebsite, isFetchingCompanies,
       isNewCompany, companyName,
     } = this.state;
+    const isAbleToNext = Boolean(companyName);
     return (
       <Form>
         <Form.Group widths="2">
@@ -193,6 +214,7 @@ class ManufacturerForm extends Component {
               onChange={this.onCompanySelectionChange}
               disabled={isSaving}
               loading={isFetchingCompanies}
+              onClear={this.resetCompanySelection}
             />
           </Form.Field>
         </Form.Group>
@@ -259,7 +281,7 @@ class ManufacturerForm extends Component {
           </Accordion.Content>
         </Accordion>
         <Divider />
-        <Button loading={isSaving} onClick={this.nextClicked} positive>
+        <Button disabled={!isAbleToNext} loading={isSaving} onClick={this.nextClicked} positive>
           Next
           <Icon name="right arrow" />
         </Button>

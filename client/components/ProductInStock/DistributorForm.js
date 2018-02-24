@@ -102,7 +102,8 @@ class DistributorForm extends Component {
               selection
               options={distributors}
               noResultsMessage="No distributor found"
-              value={distributorName}
+              value={distributorId}
+              name={distributorName}
               onAddItem={this.onNewCompanyAdded}
               deburr
               readOnly={isReadOnly}
