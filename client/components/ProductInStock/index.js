@@ -56,7 +56,7 @@ export default class ProductInStock extends React.Component {
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
-            <Grid.Column textAlign="left" width="12">
+            <Grid.Column className="productInStock" textAlign="left" width="12">
               <Tab
                 activeIndex={activeIndex}
                 onTabChange={this.onTabChanged}

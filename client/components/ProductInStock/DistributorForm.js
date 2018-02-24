@@ -14,7 +14,6 @@ class DistributorForm extends Component {
     setDistributorInformation: PropTypes.func,
     distributorName: PropTypes.string,
     token: PropTypes.string,
-    setDistributorForProduct: PropTypes.func,
     distributorId: PropTypes.string,
     companyId: PropTypes.string,
   }
@@ -23,21 +22,18 @@ class DistributorForm extends Component {
     setDistributorInformation: () => { },
     distributorName: '',
     token: '',
-    setDistributorForProduct: () => { },
     distributorId: '',
     companyId: '',
   }
   initialCompanyState = {
-    istributorId: '0',
-    distributorName: 'Duc Mai',
-    contactName: 'Duc Mai',
-    distributorPhoneNumber: '0985354437',
-    distributorEmail: 'backan@thienlong.org',
-    distributorAddress: 'Bac Kan, VietNam',
-    distributorTax: '42342432',
-    distributorWebsite: 'backan.company',
-    distributors: [],
-    distributorSources: [],
+    istributorId: '',
+    distributorName: '',
+    contactName: '',
+    distributorPhoneNumber: '',
+    distributorEmail: '',
+    distributorAddress: '',
+    distributorTax: '',
+    distributorWebsite: '',
   }
   state = {
     activeIndex: -1,
@@ -45,22 +41,23 @@ class DistributorForm extends Component {
     isFetchingDistributors: false,
     isNewDistributor: false,
     ...this.initialCompanyState,
+    distributors: [],
+    distributorSources: [],
   }
   componentWillMount() {
     const { token } = this.props;
+    this.state.distributorName = this.props.distributorName;
+    this.state.distributorId = this.props.distributorId;
+
     this.loadDistributors(token);
+  }
+  componentWillReceiveProps(nextProps) {
+    const { token } = nextProps;
     this.setState({
       distributorName: this.props.distributorName,
       distributorId: this.props.distributorId,
     });
-  }
-  componentWillReceiveProps(nextProps) {
-    const { token } = nextProps;
     this.loadDistributors(token);
-    this.setState({
-      companyName: this.props.distributorName,
-      companyId: this.props.distributorId,
-    });
   }
   onNewDistributorAdded = (e, { value }) => {
     const distributorName = value;
@@ -89,7 +86,7 @@ class DistributorForm extends Component {
     const { distributorSources, distributors } = this.state;
     const distributor = find(distributors, { value });
     if (distributor) {
-      this.populateCompanyInfo(value, distributorSources, distributor.text);
+      this.populateDistributorInfo(value, distributorSources, distributor.text);
     } else {
       this.setState({
         distributorId: value,
@@ -97,19 +94,25 @@ class DistributorForm extends Component {
       });
     }
   }
-  populateCompanyInfo = (distributorId, distributorSources, distributorName) => {
+  resetIndustriSelection = () => {
+    this.setState({
+      ...this.initialCompanyState,
+    });
+  }
+  populateDistributorInfo = (distributorId, distributorSources, distributorName) => {
     if (distributorSources && distributorId) {
       const source = find(distributorSources, { _id: distributorId });
+
       if (source) {
         this.setState({
           distributorId,
           distributorName,
           contactName: source.contactName,
-          companyPhoneNumber: source.phoneNumber,
-          companyEmail: source.email,
-          companyAddress: source.address,
-          companyTax: source.tax,
-          companyWebsite: source.website,
+          distributorPhoneNumber: source.phoneNumber,
+          distributorEmail: source.email,
+          distributorAddress: source.address,
+          distributorTax: source.tax,
+          distributorWebsite: source.website,
           isNewDistributor: false,
         });
       } else {
@@ -137,8 +140,8 @@ class DistributorForm extends Component {
             distributors,
             distributorSources: response.distributors,
           });
-          const { companyId, companyName } = this.state;
-          this.populateCompanyInfo(companyId, response.companies, companyName);
+          const { distributorId, distributorName } = this.state;
+          this.populateDistributorInfo(distributorId, response.distributors, distributorName);
         })
         .catch((error) => {
           this.setState({
@@ -178,7 +181,7 @@ class DistributorForm extends Component {
           this.setState({
             isSaving: false,
           });
-          this.props.setDistributorInformation(distributorId, distributorName);
+          this.props.setDistributorInformation(response.distributor._id, distributorName);
           this.props.onNextClicked();
         })
         .catch((error) => {
@@ -219,6 +222,7 @@ class DistributorForm extends Component {
               onChange={this.onDistributorSelectionChange}
               disabled={isSaving}
               loading={isFetchingDistributors}
+              onClear={this.resetIndustriSelection}
             />
           </Form.Field>
         </Form.Group>
