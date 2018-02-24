@@ -8,3 +8,12 @@ export function validateCompany(company) {
 
   return new Validator(company, rules).passes();
 }
+
+export function validateDistributor(company) {
+  const rules = {
+    name: 'required',
+    email: 'required|email',
+  };
+
+  return new Validator(company, rules).passes();
+}

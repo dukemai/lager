@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 
 const Distributor = new Schema({
   name: String,
+  contactName: String,
   phoneNumber: String,
   email: String,
   address: String,

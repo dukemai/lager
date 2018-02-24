@@ -143,7 +143,6 @@ router.put('/company', passport.authenticate('jwt', { session: false }), (req, r
               address,
               tax,
               website,
-              companyId,
             };
             toUpdate
               .save()

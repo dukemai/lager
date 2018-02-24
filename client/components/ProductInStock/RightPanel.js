@@ -2,16 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { Segment, Progress, Button, Sticky, Label, Icon, List } from 'semantic-ui-react';
+import { Segment, Progress, Button, Sticky, Label, List } from 'semantic-ui-react';
 
 const propTypes = {
   companyName: PropTypes.string,
+  distributorName: PropTypes.string,
 };
 const defaultProps = {
   companyName: '',
+  distributorName: '',
 };
 
-const RightPanel = ({ companyName }) => (
+const RightPanel = ({ companyName, distributorName }) => (
   <Sticky>
     <Segment color="olive">
       <Button positive>
@@ -30,7 +32,7 @@ const RightPanel = ({ companyName }) => (
           <div className="manufacturerForm__rightPanel__label">
             Distributor
           </div>
-          <Label content="Duc Mai" onRemove={()=>{}} color="blue" removeIcon="delete" />
+          <Label content={distributorName} onRemove={()=>{}} color="blue" removeIcon="delete" />
         </List.Item>
         <List.Item>
           <div className="manufacturerForm__rightPanel__label">
@@ -53,6 +55,7 @@ RightPanel.defaultProps = defaultProps;
 
 const mapStateToProps = state => ({
   companyName: state.addProductToStock.companyName,
+  distributorName: state.addProductToStock.distributorName,
 });
 
 const mapDispatchToProps = dispatch => ({

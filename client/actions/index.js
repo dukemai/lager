@@ -49,4 +49,4 @@ export function logOut() {
   };
 }
 
-export { setCompanyForProduct } from './addProductToStock';
+export { setCompanyForProduct, setDistributorForProduct } from './addProductToStock';
