@@ -14,18 +14,16 @@ class ManufacturerForm extends Component {
     companyName: PropTypes.string,
     token: PropTypes.string,
     setCompanyInformation: PropTypes.func,
+    companyId: PropTypes.string,
   }
   static defaultProps = {
     onNextClicked: () => { },
     companyName: '',
     token: '',
     setCompanyInformation: () => { },
+    companyId: '',
   }
-  state = {
-    activeIndex: -1,
-    isSaving: false,
-    isFetchingCompanies: false,
-    isNewCompany: false,
+  initialCompanyState = {
     companyId: '',
     companyName: '',
     contactName: '',
@@ -34,18 +32,32 @@ class ManufacturerForm extends Component {
     companyAddress: '',
     companyTax: '',
     companyWebsite: '',
+  }
+  state = {
+    activeIndex: -1,
+    isSaving: false,
+    isFetchingCompanies: false,
+    isNewCompany: false,
+    ...this.initialCompanyState,
     companies: [],
     companySources: [],
   }
   componentWillMount() {
     const { token } = this.props;
     this.loadCompanies(token);
+    this.setState({
+      companyName: this.props.companyName,
+      companyId: this.props.companyId,
+    });
   }
   componentWillReceiveProps(nextProps) {
     const { token } = nextProps;
     this.loadCompanies(token);
+    this.setState({
+      companyName: this.props.companyName,
+      companyId: this.props.companyId,
+    });
   }
-
   onInputChanged = (field, value) => {
     const { state } = this;
     state[field] = value;
@@ -56,6 +68,7 @@ class ManufacturerForm extends Component {
   onNewCompanyAdded = (e, { value }) => {
     const companyName = value;
     this.setState({
+      ...this.initialCompanyState,
       companyName,
       companies: [...this.state.companies, {
         key: companyName,
@@ -76,7 +89,7 @@ class ManufacturerForm extends Component {
       this.setState({
         companyId: value,
         companyName: company.text,
-        contactName: source.contact,
+        contactName: source.contactName,
         companyPhoneNumber: source.phoneNumber,
         companyEmail: source.email,
         companyAddress: source.address,
@@ -128,35 +141,35 @@ class ManufacturerForm extends Component {
       companyName, companyId,
       contactName, companyPhoneNumber, companyAddress,
       companyEmail, companyTax, companyWebsite,
+      isNewCompany,
     } = this.state;
-    this.props.setCompanyInformation(companyId, companyName);
-    this.props.onNextClicked();
-    this.setState({
-      isSaving: true,
-    });
-
-    addCompany(
-      this.props.token, companyName, contactName, companyPhoneNumber,
-      companyEmail, companyAddress, companyTax, companyWebsite,
-    )
-      .then((response) => {
-        this.setState({
-          isSaving: false,
+    if (!isNewCompany) {
+      this.props.setCompanyInformation(companyId, companyName);
+      this.props.onNextClicked();
+    } else {
+      addCompany(
+        this.props.token, companyName, contactName, companyPhoneNumber,
+        companyEmail, companyAddress, companyTax, companyWebsite,
+      )
+        .then((response) => {
+          this.setState({
+            isSaving: false,
+          });
+          this.props.onNextClicked();
+        })
+        .catch((error) => {
+          this.setState({
+            isSaving: false,
+          });
         });
-        this.props.onNextClicked();
-      })
-      .catch((error) => {
-        this.setState({
-          isSaving: false,
-        });
-      });
+    }
   }
   render() {
     const {
-      activeIndex, isSaving, companyName, companies,
+      activeIndex, isSaving, companyId, companies,
       contactName, companyPhoneNumber, companyAddress,
       companyEmail, companyTax, companyWebsite, isFetchingCompanies,
-      companyId, isNewCompany,
+      isNewCompany, companyName,
     } = this.state;
     return (
       <Form>
@@ -172,7 +185,8 @@ class ManufacturerForm extends Component {
               selection
               options={companies}
               noResultsMessage="No company found"
-              value={companyName}
+              value={companyId}
+              text={companyName}
               onAddItem={this.onNewCompanyAdded}
               deburr
               readOnly
@@ -185,7 +199,7 @@ class ManufacturerForm extends Component {
         <Accordion>
           <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
             <Icon name="dropdown" />
-            {isNewCompany ? 'New company' : 'View company information'}
+            Company Detail
           </Accordion.Title>
           <Accordion.Content active={activeIndex === 0}>
             <Form.Group widths="equal">
@@ -256,6 +270,8 @@ class ManufacturerForm extends Component {
 
 const mapStateToProps = state => ({
   token: state.app.token,
+  companyName: state.addProductToStock.companyName,
+  companyId: state.addProductToStock.companyId,
 });
 
 const mapDispatchToProps = dispatch => ({

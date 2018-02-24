@@ -39,7 +39,7 @@ class AutoComplete extends React.Component {
       <IfComponent
         condition={this.state.isReadOnly}
         whenTrue={
-          <Label>{this.props.value}<Icon name="delete" onClick={this.onReadOnlyRemoved} /></Label>
+          <Label>{this.props.text}<Icon name="delete" onClick={this.onReadOnlyRemoved} /></Label>
         }
         whenFalse={
           <Dropdown
