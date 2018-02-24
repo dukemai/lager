@@ -5,21 +5,25 @@ import { Form, Accordion, Icon, Button, Divider, Dropdown, Label } from 'semanti
 
 import { AutoComplete } from '../share';
 import { addCompany } from '../../server-interactions';
+import { setCompanyForProduct } from '../../actions';
 
 class ManufacturerForm extends Component {
   static propTypes = {
     onNextClicked: PropTypes.func,
     companyName: PropTypes.string,
     token: PropTypes.string,
+    setCompanyInformation: PropTypes.func,
   }
   static defaultProps = {
     onNextClicked: () => { },
     companyName: '',
     token: '',
+    setCompanyInformation: () => { },
   }
   state = {
     activeIndex: -1,
     isSaving: false,
+    companyId: '0',
     companyName: 'Thien Long',
     contactName: 'Duc Mai',
     companyPhoneNumber: '0985354437',
@@ -61,14 +65,18 @@ class ManufacturerForm extends Component {
     this.setState({ activeIndex: newIndex });
   }
   nextClicked = () => {
-    this.setState({
-      isSaving: true,
-    });
     const {
-      companyName,
+      companyName, companyId,
       contactName, companyPhoneNumber, companyAddress,
       companyEmail, companyTax, companyWebsite,
     } = this.state;
+    this.props.setCompanyInformation(companyId, companyName);
+    this.props.onNextClicked();
+    return;
+    this.setState({
+      isSaving: true,
+    });
+
     addCompany(
       this.props.token, companyName, contactName, companyPhoneNumber,
       companyEmail, companyAddress, companyTax, companyWebsite,
@@ -191,6 +199,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  setCompanyInformation: (companyId, companyName) => {
+    dispatch(setCompanyForProduct(companyId, companyName));
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManufacturerForm);

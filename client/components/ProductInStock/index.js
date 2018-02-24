@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Header, Grid, Tab, Checkbox, List,
-  Segment, Divider, Progress, Button, Sticky,
+  Header, Grid, Tab,
 } from 'semantic-ui-react';
 
 import ManufacturerForm from './ManufacturerForm';
 import ProductForm from './ProductForm';
 import DistributorForm from './DistributorForm';
+import RightPanel from './RightPanel';
 
 import { AuthenticatedLayout } from '../share';
+import './styles.styl';
 
 const propTypes = {
 };
@@ -20,7 +21,9 @@ export default class ProductInStock extends React.Component {
   static propTypes = propTypes;
   static defaultProps = defaultProps;
 
-  state = { activeIndex: 0 }
+  state = {
+    activeIndex: 0,
+  }
   onTabChanged = (event, data) => {
     this.setState({
       activeIndex: data.activeIndex,
@@ -89,33 +92,7 @@ export default class ProductInStock extends React.Component {
               />
             </Grid.Column>
             <Grid.Column width="4">
-              <Sticky>
-                <Segment color="olive">
-                  <Button positive>
-                    Save Product
-                  </Button>
-                </Segment>
-                <Segment color="olive">
-                  <List>
-                    <List.Item>
-                      <Checkbox label="Remember company" />
-                      <Divider />
-                    </List.Item>
-                    <List.Item>
-                      <Checkbox label="Remember distributor" />
-                      <Divider />
-                    </List.Item>
-                    <List.Item>
-                      <Checkbox label="Remember category" />
-                    </List.Item>
-                  </List>
-                </Segment>
-                <Segment>
-                  <Progress color="blue" size="small" percent={33.3} active>
-                    Creating product
-                  </Progress>
-                </Segment>
-              </Sticky>
+              <RightPanel />
             </Grid.Column>
           </Grid.Row>
         </Grid>

@@ -48,3 +48,5 @@ export function logOut() {
       });
   };
 }
+
+export { setCompanyForProduct } from './addProductToStock';
