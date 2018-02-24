@@ -1,24 +1,44 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Form, Accordion, Icon, Button, Divider, Dropdown, Label } from 'semantic-ui-react';
 
 import { AutoComplete } from '../share';
+import { addCompany } from '../../server-interactions';
 
-export default class ManufacturerForm extends Component {
+class ManufacturerForm extends Component {
   static propTypes = {
     onNextClicked: PropTypes.func,
     companyName: PropTypes.string,
+    token: PropTypes.string,
   }
   static defaultProps = {
     onNextClicked: () => { },
     companyName: '',
+    token: '',
   }
   state = {
     activeIndex: -1,
     isSaving: false,
-    companyName: '',
-    companies: [],
-    isReadOnly: false,
+    companyName: 'Thien Long',
+    contactName: 'Duc Mai',
+    companyPhoneNumber: '0985354437',
+    companyEmail: 'contact@thienlong.org',
+    companyAddress: 'hochiminh, VietNam',
+    companyTax: '42342432',
+    companyWebsite: 'thienlong.company',
+    companies: [{
+      key: 'Thien Long',
+      text: 'Thien Long',
+      value: 'Thien Long',
+    }],
+  }
+  onInputChanged = (field, value) => {
+    const { state } = this;
+    state[field] = value;
+    this.setState({
+      ...state,
+    });
   }
   onNewCompanyAdded = (e, { value }) => {
     const companyName = value;
@@ -44,12 +64,33 @@ export default class ManufacturerForm extends Component {
     this.setState({
       isSaving: true,
     });
+    const {
+      companyName,
+      contactName, companyPhoneNumber, companyAddress,
+      companyEmail, companyTax, companyWebsite,
+    } = this.state;
+    addCompany(
+      this.props.token, companyName, contactName, companyPhoneNumber,
+      companyEmail, companyAddress, companyTax, companyWebsite,
+    )
+      .then((response) => {
+        this.setState({
+          isSaving: false,
+        });
+        this.props.onNextClicked();
+      })
+      .catch((error) => {
+        this.setState({
+          isSaving: false,
+        });
+      });
   }
   render() {
     const {
-      activeIndex, isSaving, companyName, companies, isReadOnly
+      activeIndex, isSaving, companyName, companies,
+      contactName, companyPhoneNumber, companyAddress,
+      companyEmail, companyTax, companyWebsite,
     } = this.state;
-    const { onNextClicked } = this.props;
     return (
       <Form>
         <Form.Group widths="2">
@@ -68,6 +109,8 @@ export default class ManufacturerForm extends Component {
               onAddItem={this.onNewCompanyAdded}
               deburr
               readOnly
+              onChange={(event, { value }) => { this.onInputChanged('companyName', value); }}
+              disabled={isSaving}
             />
           </Form.Field>
         </Form.Group>
@@ -78,12 +121,40 @@ export default class ManufacturerForm extends Component {
           </Accordion.Title>
           <Accordion.Content active={activeIndex === 0}>
             <Form.Group widths="equal">
-              <Form.Input fluid label="Contact name" placeholder="Contact name" />
-              <Form.Input fluid label="Phone number" placeholder="Phone number" />
+              <Form.Input
+                fluid
+                label="Contact name"
+                placeholder="Contact name"
+                value={contactName}
+                onChange={(event, { value }) => { this.onInputChanged('contactName', value); }}
+                disabled={isSaving}
+              />
+              <Form.Input
+                fluid
+                label="Phone number"
+                placeholder="Phone number"
+                value={companyPhoneNumber}
+                onChange={(event, { value }) => { this.onInputChanged('companyPhoneNumber', value); }}
+                disabled={isSaving}
+              />
             </Form.Group>
             <Form.Group widths="equal">
-              <Form.Input fluid label="Email" placeholder="Email" />
-              <Form.Input fluid label="Address" placeholder="Address" />
+              <Form.Input
+                fluid
+                label="Email"
+                placeholder="Email"
+                value={companyEmail}
+                onChange={(event, { value }) => { this.onInputChanged('companyEmail', value); }}
+                disabled={isSaving}
+              />
+              <Form.Input
+                fluid
+                label="Address"
+                placeholder="Address"
+                disabled={isSaving}
+                value={companyAddress}
+                onChange={(event, { value }) => { this.onInputChanged('companyAddress', value); }}
+              />
             </Form.Group>
             <Form.Group widths="equal">
               <Form.Input
@@ -91,12 +162,16 @@ export default class ManufacturerForm extends Component {
                 fluid
                 label="Tax"
                 placeholder="Tax"
+                value={companyTax}
+                onChange={(event, { value }) => { this.onInputChanged('companyTax', value); }}
               />
               <Form.Input
                 fluid
                 label="Website"
                 placeholder="Website"
                 disabled={isSaving}
+                value={companyWebsite}
+                onChange={(event, { value }) => { this.onInputChanged('companyWebsite', value); }}
               />
             </Form.Group>
           </Accordion.Content>
@@ -110,3 +185,12 @@ export default class ManufacturerForm extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  token: state.app.token,
+});
+
+const mapDispatchToProps = dispatch => ({
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ManufacturerForm);

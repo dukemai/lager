@@ -19,6 +19,9 @@ class AutoComplete extends React.Component {
   state = {
     isReadOnly: false,
   }
+  componentWillMount() {
+    this.state.isReadOnly = Boolean(this.props.isSingleChoice && this.props.value);
+  }
   onReadOnlyAdded = () => {
     this.setState({
       isReadOnly: this.props.isSingleChoice,

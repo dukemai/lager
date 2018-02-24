@@ -41,10 +41,15 @@ router.post('/company', passport.authenticate('jwt', { session: false }), (req, 
   const {
     companyName, contactName, phoneNumber, email, address,
     tax, website,
-  } = this.props;
+  } = req.body;
   if (!validateCompany({
-    name: companyName, contactName, phoneNumber, email, address,
-    tax, website,
+    name: companyName,
+    contactName,
+    phoneNumber,
+    email,
+    address,
+    tax,
+    website,
   })) {
     res.status(400).json({
       created: false,
@@ -99,7 +104,7 @@ router.put('/company', passport.authenticate('jwt', { session: false }), (req, r
   const {
     companyName, contactName, phoneNumber, email, address,
     tax, website, companyId,
-  } = this.props;
+  } = req.body;
   if (!validateCompany({
     name: companyName, contactName, phoneNumber, email, address,
     tax, website,

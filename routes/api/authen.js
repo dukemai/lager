@@ -42,7 +42,7 @@ router.post('/login', (req, res) => {
       account.comparePassword(req.body.password, (compareErr, isMatch) => {
         if (isMatch && !compareErr) {
           if (account.isActivated) {
-            const token = jwt.sign(account.toObject(), databaseConfig.secret, { expiresIn: '2h' });
+            const token = jwt.sign(account.toObject(), databaseConfig.secret);
             const tokenString = `JWT ${token}`;
             res.json({
               success: true,
