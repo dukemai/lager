@@ -106,8 +106,13 @@ router.put('/company', passport.authenticate('jwt', { session: false }), (req, r
     tax, website, companyId,
   } = req.body;
   if (!validateCompany({
-    name: companyName, contactName, phoneNumber, email, address,
-    tax, website,
+    name: companyName,
+    contactName,
+    phoneNumber,
+    email,
+    address,
+    tax,
+    website,
   })) {
     res.status(400).json({
       updated: false,

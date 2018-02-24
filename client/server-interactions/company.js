@@ -1,5 +1,17 @@
 import axios from 'axios';
 
+export function getCompanies(token) {
+  return new Promise((resolve, reject) => {
+    axios.get('/api/companies', {
+      headers: {
+        Authorization: token,
+      },
+    })
+      .then(res => resolve(res.data))
+      .catch(error => reject(error));
+  });
+}
+
 export function addCompany(
   token, companyName, contactName, phoneNumber, email, address,
   tax, website,
@@ -19,7 +31,7 @@ export function addCompany(
       },
     })
       .then(res => resolve(res.data))
-      .catch(res => reject(res));
+      .catch(error => reject(error));
   });
 }
 
@@ -43,6 +55,6 @@ export function updateCompany(
       },
     })
       .then(res => resolve(res.data))
-      .catch(res => reject(res));
+      .catch(error => reject(error));
   });
 }

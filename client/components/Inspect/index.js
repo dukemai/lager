@@ -96,11 +96,6 @@ class Inspect extends React.Component {
                     <Icon name="plus" />
                     Product
                   </Button>
-                  <Divider />
-                  <Button onClick={newStockCompanyClicked} color="teal" icon labelPosition="left">
-                    <Icon name="plus" />
-                    Company
-                  </Button>
                 </Segment>
               </Sticky>
             </Grid.Column>

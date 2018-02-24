@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Form, Accordion, Icon, Button, Divider, Dropdown, Label } from 'semantic-ui-react';
+import { find } from 'lodash';
+import { Form, Accordion, Icon, Button, Divider } from 'semantic-ui-react';
 
 import { AutoComplete } from '../share';
-import { addCompany } from '../../server-interactions';
+import { addCompany, getCompanies } from '../../server-interactions';
 import { setCompanyForProduct } from '../../actions';
 
 class ManufacturerForm extends Component {
@@ -23,20 +24,27 @@ class ManufacturerForm extends Component {
   state = {
     activeIndex: -1,
     isSaving: false,
-    companyId: '0',
-    companyName: 'Thien Long',
-    contactName: 'Duc Mai',
-    companyPhoneNumber: '0985354437',
-    companyEmail: 'contact@thienlong.org',
-    companyAddress: 'hochiminh, VietNam',
-    companyTax: '42342432',
-    companyWebsite: 'thienlong.company',
-    companies: [{
-      key: 'Thien Long',
-      text: 'Thien Long',
-      value: 'Thien Long',
-    }],
+    isFetchingCompanies: false,
+    companyId: '',
+    companyName: '',
+    contactName: '',
+    companyPhoneNumber: '',
+    companyEmail: '',
+    companyAddress: '',
+    companyTax: '',
+    companyWebsite: '',
+    companies: [],
+    companySources: [],
   }
+  componentWillMount() {
+    const { token } = this.props;
+    this.loadCompanies(token);
+  }
+  componentWillReceiveProps(nextProps) {
+    const { token } = nextProps;
+    this.loadCompanies(token);
+  }
+
   onInputChanged = (field, value) => {
     const { state } = this;
     state[field] = value;
@@ -57,6 +65,54 @@ class ManufacturerForm extends Component {
       isReadOnly: true,
     });
   }
+  onCompanySelectionChange = (e, data) => {
+    const { value } = data;
+    const { companySources, companies } = this.state;
+    const company = find(companies, { value });
+    if (company) {
+      const source = find(companySources, { _id: value });
+      this.setState({
+        companyId: value,
+        companyName: company.text,
+        contactName: source.contact,
+        companyPhoneNumber: source.phoneNumber,
+        companyEmail: source.email,
+        companyAddress: source.address,
+        companyTax: source.tax,
+        companyWebsite: source.website,
+      });
+    } else {
+      this.setState({
+        companyId: value,
+        companyName: company.text,
+      });
+    }
+  }
+  loadCompanies = (token) => {
+    if (token) {
+      this.setState({
+        isFetchingCompanies: true,
+      });
+      getCompanies(token)
+        .then((response) => {
+          const companies = response.companies.map(doc => ({
+            key: doc._id,
+            text: doc.name,
+            value: doc._id,
+          }));
+          this.setState({
+            isFetchingCompanies: false,
+            companies,
+            companySources: response.companies,
+          });
+        })
+        .catch((error) => {
+          this.setState({
+            isFetchingCompanies: false,
+          });
+        });
+    }
+  }
   handleClick = (e, titleProps) => {
     const { index } = titleProps;
     const { activeIndex } = this.state;
@@ -72,7 +128,6 @@ class ManufacturerForm extends Component {
     } = this.state;
     this.props.setCompanyInformation(companyId, companyName);
     this.props.onNextClicked();
-    return;
     this.setState({
       isSaving: true,
     });
@@ -97,8 +152,10 @@ class ManufacturerForm extends Component {
     const {
       activeIndex, isSaving, companyName, companies,
       contactName, companyPhoneNumber, companyAddress,
-      companyEmail, companyTax, companyWebsite,
+      companyEmail, companyTax, companyWebsite, isFetchingCompanies,
+      companyId,
     } = this.state;
+    const isNewCompany = !Boolean(companyId);
     return (
       <Form>
         <Form.Group widths="2">
@@ -117,15 +174,16 @@ class ManufacturerForm extends Component {
               onAddItem={this.onNewCompanyAdded}
               deburr
               readOnly
-              onChange={(event, { value }) => { this.onInputChanged('companyName', value); }}
+              onChange={this.onCompanySelectionChange}
               disabled={isSaving}
+              loading={isFetchingCompanies}
             />
           </Form.Field>
         </Form.Group>
         <Accordion>
           <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
             <Icon name="dropdown" />
-            New Company
+            {isNewCompany ? 'New company' : 'View company information'}
           </Accordion.Title>
           <Accordion.Content active={activeIndex === 0}>
             <Form.Group widths="equal">
@@ -135,7 +193,7 @@ class ManufacturerForm extends Component {
                 placeholder="Contact name"
                 value={contactName}
                 onChange={(event, { value }) => { this.onInputChanged('contactName', value); }}
-                disabled={isSaving}
+                disabled={isSaving || !isNewCompany}
               />
               <Form.Input
                 fluid
@@ -143,7 +201,7 @@ class ManufacturerForm extends Component {
                 placeholder="Phone number"
                 value={companyPhoneNumber}
                 onChange={(event, { value }) => { this.onInputChanged('companyPhoneNumber', value); }}
-                disabled={isSaving}
+                disabled={isSaving || !isNewCompany}
               />
             </Form.Group>
             <Form.Group widths="equal">
@@ -153,20 +211,20 @@ class ManufacturerForm extends Component {
                 placeholder="Email"
                 value={companyEmail}
                 onChange={(event, { value }) => { this.onInputChanged('companyEmail', value); }}
-                disabled={isSaving}
+                disabled={isSaving || !isNewCompany}
               />
               <Form.Input
                 fluid
                 label="Address"
                 placeholder="Address"
-                disabled={isSaving}
+                disabled={isSaving || !isNewCompany}
                 value={companyAddress}
                 onChange={(event, { value }) => { this.onInputChanged('companyAddress', value); }}
               />
             </Form.Group>
             <Form.Group widths="equal">
               <Form.Input
-                disabled={isSaving}
+                disabled={isSaving || !isNewCompany}
                 fluid
                 label="Tax"
                 placeholder="Tax"
@@ -177,7 +235,7 @@ class ManufacturerForm extends Component {
                 fluid
                 label="Website"
                 placeholder="Website"
-                disabled={isSaving}
+                disabled={isSaving || !isNewCompany}
                 value={companyWebsite}
                 onChange={(event, { value }) => { this.onInputChanged('companyWebsite', value); }}
               />

@@ -10,6 +10,7 @@ const Company = new Schema({
   tax: String,
   website: String,
   distributors: Array,
+  contactName: String,
 });
 
 export default mongoose.model('Company', Company);
