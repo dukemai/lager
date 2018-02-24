@@ -25,6 +25,7 @@ class ManufacturerForm extends Component {
     activeIndex: -1,
     isSaving: false,
     isFetchingCompanies: false,
+    isNewCompany: false,
     companyId: '',
     companyName: '',
     contactName: '',
@@ -63,14 +64,15 @@ class ManufacturerForm extends Component {
       }],
       activeIndex: 0,
       isReadOnly: true,
+      isNewCompany: true,
     });
   }
   onCompanySelectionChange = (e, data) => {
     const { value } = data;
     const { companySources, companies } = this.state;
     const company = find(companies, { value });
-    if (company) {
-      const source = find(companySources, { _id: value });
+    const source = find(companySources, { _id: value });
+    if (source) {
       this.setState({
         companyId: value,
         companyName: company.text,
@@ -80,11 +82,12 @@ class ManufacturerForm extends Component {
         companyAddress: source.address,
         companyTax: source.tax,
         companyWebsite: source.website,
+        isNewCompany: false,
       });
     } else {
       this.setState({
         companyId: value,
-        companyName: company.text,
+        companyName: value,
       });
     }
   }
@@ -153,9 +156,8 @@ class ManufacturerForm extends Component {
       activeIndex, isSaving, companyName, companies,
       contactName, companyPhoneNumber, companyAddress,
       companyEmail, companyTax, companyWebsite, isFetchingCompanies,
-      companyId,
+      companyId, isNewCompany,
     } = this.state;
-    const isNewCompany = !Boolean(companyId);
     return (
       <Form>
         <Form.Group widths="2">

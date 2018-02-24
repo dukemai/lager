@@ -165,7 +165,7 @@ router.put('/company', passport.authenticate('jwt', { session: false }), (req, r
               updated: false,
               error: findError,
             });
-          })
+          });
       }
     })
     .catch((error) => {
