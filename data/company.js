@@ -11,6 +11,11 @@ const Company = new Schema({
   website: String,
   distributors: Array,
   contactName: String,
+}, {
+  timestamps: {
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+  },
 });
 
 export default mongoose.model('Company', Company);

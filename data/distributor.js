@@ -11,6 +11,11 @@ const Distributor = new Schema({
   tax: String,
   website: String,
   manufacturers: Array,
+}, {
+  timestamps: {
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+  },
 });
 
 export default mongoose.model('Distributor', Distributor);

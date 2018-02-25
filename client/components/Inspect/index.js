@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 
-import { Menu, Icon, Grid, Header, Table, Sticky, Segment, Progress, Checkbox, Button, Divider } from 'semantic-ui-react';
+import { Menu, Icon, Grid, Header, Table, Sticky, Segment, Label, Button, Divider } from 'semantic-ui-react';
 
 import { AuthenticatedLayout } from '../share';
 import './styles.styl';
@@ -13,8 +13,8 @@ const propTypes = {
   newStockCompanyClicked: PropTypes.func,
 };
 const defaultProps = {
-  newStockCompanyClicked: () => {},
-  newStockProductClicked: () => {},
+  newStockCompanyClicked: () => { },
+  newStockProductClicked: () => { },
 };
 
 class Inspect extends React.Component {
@@ -95,6 +95,16 @@ class Inspect extends React.Component {
                   <Button onClick={newStockProductClicked} icon positive labelPosition="left">
                     <Icon name="plus" />
                     Product
+                  </Button>
+                  <Divider />
+                  <Button onClick={newStockProductClicked} icon color="teal" labelPosition="left">
+                    <Icon name="compose" />
+                    Company
+                  </Button>
+                  <Divider />
+                  <Button onClick={newStockProductClicked} icon color="teal" labelPosition="left">
+                    <Icon name="compose" />
+                    Distributor
                   </Button>
                 </Segment>
               </Sticky>

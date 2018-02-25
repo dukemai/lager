@@ -10,9 +10,14 @@ const Account = new Schema({
   isActivated: Boolean,
   firstName: String,
   lastName: String,
+}, {
+  timestamps: {
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+  },
 });
 /*eslint-disable */
-Account.pre('save', function(next) {
+Account.pre('save', function (next) {
   const account = this;
   if (this.isModified('password') || this.isNew) {
     account.password = bcrypt.hashSync(account.password, bcrypt.genSaltSync(10));

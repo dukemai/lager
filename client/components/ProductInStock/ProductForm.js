@@ -6,6 +6,9 @@ export default class BuyForm extends Component {
   render() {
     return (
       <Form>
+        <Form.Group widths="2">
+          <Form.Input fluid label="Product category" placeholder="Product category" />
+        </Form.Group>
         <Form.Group widths="equal">
           <Form.Input fluid label="Product name" placeholder="Product name" />
           <Form.Input fluid label="Product code" placeholder="Product code" />
@@ -18,7 +21,6 @@ export default class BuyForm extends Component {
           <Form.Input fluid label="Product price" placeholder="Product price" />
           <Form.Input fluid label="Product retail price" placeholder="Product retail price" />
         </Form.Group>
-        <Form.Input fluid label="Product category" placeholder="Product category" />
         <Form.Input fluid label="Product image" type="file" placeholder="Product image" />
       </Form>
     );

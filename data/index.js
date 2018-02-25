@@ -5,7 +5,9 @@ export { default as Account } from './account';
 export { default as Company } from './company';
 export { default as Distributor } from './distributor';
 export { default as Contact } from './contact';
-
+export { default as ProductCategory } from './productCategory';
+export { default as ProductUnit } from './productUnit';
+export { default as Product } from './product';
 
 export function connectDB() {
   const connection = databaseConfig.database;

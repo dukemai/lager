@@ -8,6 +8,8 @@ const Product = new Schema({
   image: String,
   category: { type: Schema.Types.ObjectId, ref: 'ProductCategory' },
   manufacturer: { type: Schema.Types.ObjectId, ref: 'Company' },
+  distributor: { type: Schema.Types.ObjectId, ref: 'Distributor' },
+  unit: { type: Schema.Types.ObjectId, ref: 'ProductUnit' },
 }, {
   timestamps: {
     createdAt: 'createdAt',

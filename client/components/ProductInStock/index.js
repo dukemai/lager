@@ -22,7 +22,7 @@ export default class ProductInStock extends React.Component {
   static defaultProps = defaultProps;
 
   state = {
-    activeIndex: 0,
+    activeIndex: 2,
   }
   onTabChanged = (event, data) => {
     this.setState({
