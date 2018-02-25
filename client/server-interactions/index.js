@@ -4,3 +4,6 @@ export {
   addDistributor, updateDistributor, getDistributors,
   linkDistributorToCompany, unlinkDistributorToCompany,
 } from './distributor';
+
+export { getCategories, addCategory, updateCategory } from './category';
+export { getUnits, addUnit, updateUnit } from './unit';
