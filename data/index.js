@@ -8,6 +8,7 @@ export { default as Contact } from './contact';
 export { default as ProductCategory } from './productCategory';
 export { default as ProductUnit } from './productUnit';
 export { default as Product } from './product';
+export { default as ProductInStock } from './productInStock';
 
 export function connectDB() {
   const connection = databaseConfig.database;

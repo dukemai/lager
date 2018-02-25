@@ -2,14 +2,12 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
-const Product = new Schema({
-  name: String,
-  code: String,
-  image: String,
-  category: { type: Schema.Types.ObjectId, ref: 'ProductCategory' },
-  manufacturer: { type: Schema.Types.ObjectId, ref: 'Company' },
+const ProductInStock = new Schema({
+  price: Number,
+  retailPrice: Number,
+  quantity: Number,
+  productId: { type: Schema.Types.ObjectId, ref: 'Product' },
   distributor: { type: Schema.Types.ObjectId, ref: 'Distributor' },
-  unit: { type: Schema.Types.ObjectId, ref: 'ProductUnit' },
 }, {
   timestamps: {
     createdAt: 'createdAt',
@@ -17,5 +15,5 @@ const Product = new Schema({
   },
 });
 
-export default mongoose.model('Product', Product);
+export default mongoose.model('ProductInStock', ProductInStock);
 

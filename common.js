@@ -42,3 +42,13 @@ export function validateProduct(input) {
 
   return new Validator(input, rules).passes();
 }
+
+export function validateProductInStock(input) {
+  const rules = {
+    price: 'required',
+    retailPrice: 'required',
+    productId: 'required',
+  };
+
+  return new Validator(input, rules).passes();
+}
