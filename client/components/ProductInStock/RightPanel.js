@@ -7,13 +7,15 @@ import { Segment, Progress, Button, Sticky, Label, List } from 'semantic-ui-reac
 const propTypes = {
   companyName: PropTypes.string,
   distributorName: PropTypes.string,
+  categoryName: PropTypes.string,
 };
 const defaultProps = {
   companyName: '',
   distributorName: '',
+  categoryName: '',
 };
 
-const RightPanel = ({ companyName, distributorName }) => (
+const RightPanel = ({ companyName, distributorName, categoryName }) => (
   <Sticky>
     <Segment color="olive">
       <Button positive>
@@ -38,7 +40,7 @@ const RightPanel = ({ companyName, distributorName }) => (
           <div className="manufacturerForm__rightPanel__label">
             Category
           </div>
-          <Label color="blue" onRemove={()=>{}} removeIcon="delete" content="But" />
+          <Label content={categoryName} color="blue" onRemove={()=>{}} removeIcon="delete" />
         </List.Item>
       </List>
     </Segment>
@@ -56,6 +58,7 @@ RightPanel.defaultProps = defaultProps;
 const mapStateToProps = state => ({
   companyName: state.addProductToStock.companyName,
   distributorName: state.addProductToStock.distributorName,
+  categoryName: state.addProductToStock.categoryName,
 });
 
 const mapDispatchToProps = dispatch => ({
