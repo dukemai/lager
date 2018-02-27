@@ -43,7 +43,7 @@ class AutoComplete extends React.Component {
       <IfComponent
         condition={this.state.isReadOnly}
         whenTrue={
-          <Form.Input fluid value={this.props.text} readOnly />
+          <Label size="large" as="div" basic>{this.props.text}<Icon name="close" onClick={this.onReadOnlyRemoved} /></Label>
         }
         whenFalse={
           <Dropdown

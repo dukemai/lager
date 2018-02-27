@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export function getProducts(token) {
+export function getProductsInStock(token) {
   return new Promise((resolve, reject) => {
-    axios.get('/api/products', {
+    axios.get('/api/products-in-stock', {
       headers: {
         Authorization: token,
       },
@@ -12,14 +12,15 @@ export function getProducts(token) {
   });
 }
 
-export function addProduct(token, name, code, image, categoryId, companyId) {
+export function addProductInStock(token, productId, distributorId, quantity, price, retailPrice, unitId) {
   return new Promise((resolve, reject) => {
-    axios.post('/api/product', {
-      name,
-      code,
-      image,
-      categoryId,
-      companyId,
+    axios.post('/api/product-in-stock', {
+      productId,
+      distributorId,
+      quantity,
+      price,
+      retailPrice,
+      unitId,
     }, {
       headers: {
         Authorization: token,
@@ -30,15 +31,19 @@ export function addProduct(token, name, code, image, categoryId, companyId) {
   });
 }
 
-export function updateProduct(token, name, code, image, categoryId, companyId, productId) {
+export function updateProductInStock(
+  token, productId, distributorId, quantity,
+  price, retailPrice, unitId, productInStockId,
+) {
   return new Promise((resolve, reject) => {
-    axios.put('/api/product', {
-      name,
-      code,
-      image,
-      categoryId,
-      companyId,
+    axios.put('/api/product-in-stock', {
       productId,
+      distributorId,
+      quantity,
+      price,
+      retailPrice,
+      unitId,
+      productInStockId,
     }, {
       headers: {
         Authorization: token,

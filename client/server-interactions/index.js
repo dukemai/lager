@@ -7,3 +7,5 @@ export {
 
 export { getCategories, addCategory, updateCategory } from './category';
 export { getUnits, addUnit, updateUnit } from './unit';
+export { getProducts, addProduct, updateProduct } from './product';
+export { getProductsInStock, addProductInStock, updateProductInStock } from './productInStock';

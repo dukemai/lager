@@ -23,6 +23,7 @@ class ProductForm extends Component {
     productUnitName: PropTypes.string,
     productPrice: PropTypes.number,
     productRetailPrice: PropTypes.number,
+    isSavingProduct: PropTypes.bool,
   }
   static defaultProps = {
     onCategoryChanged: () => { },
@@ -37,6 +38,7 @@ class ProductForm extends Component {
     productUnitName: '',
     productPrice: 0,
     productRetailPrice: 0,
+    isSavingProduct: true,
   }
   onInputChanged = (field, value) => {
     this.props.onInputChanged(field, value);
@@ -45,7 +47,7 @@ class ProductForm extends Component {
     const {
       productImage, productName, productCode,
       productQuantity, productRetailPrice, productPrice, productUnit,
-      productUnitName,
+      productUnitName, isSavingProduct,
     } = this.props;
     const { onCategoryChanged, categoryId, categoryName } = this.props;
     return (
@@ -58,13 +60,14 @@ class ProductForm extends Component {
             productCategory={categoryId}
             productCategoryName={categoryName}
           />
-          <Form.Input
-            fluid
-            label="Product image"
-            type="file"
-            placeholder="Product image"
-            value={productImage}
-            onChange={(event, { value }) => { this.onInputChanged('productImage', value); }}
+          <ProductUnit
+            onUnitChanged={(name, value) => {
+              this.onInputChanged('productUnit', name);
+              this.onInputChanged('productUnitName', value);
+            }}
+            productUnit={productUnit}
+            productUnitName={productUnitName}
+            disabled={isSavingProduct}
           />
         </Form.Group>
         <Form.Group widths="equal">
@@ -74,6 +77,7 @@ class ProductForm extends Component {
             placeholder="Product name"
             value={productName}
             onChange={(event, { value }) => { this.onInputChanged('productName', value); }}
+            disabled={isSavingProduct}
           />
           <Form.Input
             fluid
@@ -81,6 +85,7 @@ class ProductForm extends Component {
             placeholder="Product code"
             value={productCode}
             onChange={(event, { value }) => { this.onInputChanged('productCode', value); }}
+            disabled={isSavingProduct}
           />
         </Form.Group>
         <Form.Group widths="equal">
@@ -90,14 +95,16 @@ class ProductForm extends Component {
             placeholder="Product quantity"
             value={productQuantity}
             onChange={(event, { value }) => { this.onInputChanged('productQuantity', parseNumber(value)); }}
+            disabled={isSavingProduct}
           />
-          <ProductUnit
-            onUnitChanged={(name, value) => {
-              this.onInputChanged('productUnit', name);
-              this.onInputChanged('productUnitName', value);
-            }}
-            productUnit={productUnit}
-            productUnitName={productUnitName}
+          <Form.Input
+            fluid
+            label="Product image"
+            type="file"
+            placeholder="Product image"
+            value={productImage}
+            onChange={(event, { value }) => { this.onInputChanged('productImage', value); }}
+            disabled={isSavingProduct}
           />
         </Form.Group>
         <Form.Group widths="equal">
@@ -108,6 +115,7 @@ class ProductForm extends Component {
               placeholder="Product price"
               value={productPrice}
               onChange={(event, { value }) => { this.onInputChanged('productPrice', parseNumber(value)); }}
+              disabled={isSavingProduct}
             />
             <Label pointing as="a" color="black">
               <Icon name="dollar" />
@@ -121,8 +129,9 @@ class ProductForm extends Component {
               placeholder="Product retail price"
               value={productRetailPrice}
               onChange={(event, { value }) => { this.onInputChanged('productRetailPrice', parseNumber(value)); }}
+              disabled={isSavingProduct}
             />
-            <Label icon="dollar" pointing color="black">
+            <Label pointing color="black">
               <Icon name="dollar" />
               {formatCurrency(productRetailPrice)}
             </Label>
@@ -144,6 +153,7 @@ const mapStateToProps = state => ({
   productUnitName: state.addProductToStock.productUnitName,
   productPrice: parseNumber(state.addProductToStock.productPrice),
   productRetailPrice: parseNumber(state.addProductToStock.productRetailPrice),
+  isSavingProduct: state.addProductToStock.isSavingProduct,
 });
 const mapDispatchToProps = dispatch => ({
   onCategoryChanged: (categoryId, categoryName) => {

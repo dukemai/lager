@@ -53,10 +53,9 @@ class DistributorForm extends Component {
   }
   componentWillReceiveProps(nextProps) {
     const { token } = nextProps;
-    this.setState({
-      distributorName: this.props.distributorName,
-      distributorId: this.props.distributorId,
-    });
+    this.state.distributorName = nextProps.distributorName;
+    this.state.distributorId = nextProps.distributorId;
+
     this.loadDistributors(token);
   }
   onNewDistributorAdded = (e, { value }) => {

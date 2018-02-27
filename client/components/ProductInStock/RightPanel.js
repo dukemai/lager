@@ -4,21 +4,29 @@ import { connect } from 'react-redux';
 
 import { Segment, Progress, Button, Sticky, Label, List } from 'semantic-ui-react';
 
+import { saveProduct } from '../../actions';
+
 const propTypes = {
   companyName: PropTypes.string,
   distributorName: PropTypes.string,
   categoryName: PropTypes.string,
+  isSavingProduct: PropTypes.bool,
+  saveProductClicked: PropTypes.func,
 };
 const defaultProps = {
   companyName: '',
   distributorName: '',
   categoryName: '',
+  isSavingProduct: false,
+  saveProductClicked: () => {},
 };
 
-const RightPanel = ({ companyName, distributorName, categoryName }) => (
+const RightPanel = ({
+  isSavingProduct, companyName, distributorName, categoryName, saveProductClicked,
+}) => (
   <Sticky>
     <Segment color="olive">
-      <Button loading positive>
+      <Button onClick={saveProductClicked} loading={isSavingProduct} positive>
         Save Product
       </Button>
     </Segment>
@@ -59,9 +67,13 @@ const mapStateToProps = state => ({
   companyName: state.addProductToStock.companyName,
   distributorName: state.addProductToStock.distributorName,
   categoryName: state.addProductToStock.categoryName,
+  isSavingProduct: state.addProductToStock.isSavingProduct,
 });
 
 const mapDispatchToProps = dispatch => ({
+  saveProductClicked: () => {
+    dispatch(saveProduct());
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RightPanel);

@@ -1,6 +1,7 @@
 import {
   SET_COMPANY_FOR_PRODUCT, SET_DISTRIBUTOR_FOR_PRODUCT,
   SET_CATEGORY_FOR_PRODUCT, SET_PRODUCT_FIELD,
+  SAVING_PRODUCT, SAVED_PRODUCT, SAVED_PRODUCT_FAILED,
 } from '../actions/ActionTypes';
 
 const INITIAL_STATES = {
@@ -18,6 +19,7 @@ const INITIAL_STATES = {
   productUnitName: '',
   productPrice: 0,
   productRetailPrice: 0,
+  isSavingProduct: false,
 };
 
 export default function addProductToStock(state = INITIAL_STATES, action) {
@@ -53,6 +55,24 @@ export default function addProductToStock(state = INITIAL_STATES, action) {
       };
       newState[fieldName] = fieldValue;
       return newState;
+    }
+    case SAVING_PRODUCT: {
+      return {
+        ...state,
+        isSavingProduct: true,
+      };
+    }
+    case SAVED_PRODUCT: {
+      return {
+        ...state,
+        isSavingProduct: false,
+      };
+    }
+    case SAVED_PRODUCT_FAILED: {
+      return {
+        ...state,
+        isSavingProduct: false,
+      };
     }
     default:
       return state;

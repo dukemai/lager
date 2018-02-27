@@ -44,6 +44,7 @@ router.post('/product-in-stock', passport.authenticate('jwt', { session: false }
     price,
     retailPrice,
     quantity,
+    unitId,
   } = req.body;
   if (!validateProductInStock({
     productId,
@@ -73,6 +74,7 @@ router.post('/product-in-stock', passport.authenticate('jwt', { session: false }
           price,
           retailPrice,
           quantity,
+          unit: unitId,
         });
         newProduct
           .save()
@@ -105,6 +107,7 @@ router.put('/product-in-stock', passport.authenticate('jwt', { session: false })
     retailPrice,
     quantity,
     productInStockId,
+    unitId,
   } = req.body;
   if (!validateProductInStock({
     productId,
@@ -122,11 +125,11 @@ router.put('/product-in-stock', passport.authenticate('jwt', { session: false })
     .then((doc) => {
       const toUpdate = {
         ...doc,
-        productId,
         distributorId,
         price,
         retailPrice,
         quantity,
+        unit: unitId,
       };
       toUpdate
         .save()
