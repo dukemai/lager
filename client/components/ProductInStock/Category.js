@@ -106,7 +106,7 @@ class Category extends React.Component {
         });
       });
   }
-  resetCompanySelection = () => {
+  resetCategoryInformation = () => {
     this.setState({
       ...this.initialCategoryState,
     });
@@ -140,7 +140,7 @@ class Category extends React.Component {
           onChange={this.onCategoryChange}
           disabled={isSaving}
           loading={isFetchingCategories}
-          onClear={this.resetCategory}
+          onClear={this.resetCategoryInformation}
         />
       </Form.Field >
     );

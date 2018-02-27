@@ -18,7 +18,7 @@ const defaultProps = {
 const RightPanel = ({ companyName, distributorName, categoryName }) => (
   <Sticky>
     <Segment color="olive">
-      <Button positive>
+      <Button loading positive>
         Save Product
       </Button>
     </Segment>

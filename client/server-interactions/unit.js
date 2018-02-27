@@ -28,7 +28,7 @@ export function addUnit(token, name) {
 
 export function updateUnit(token, name, unitId) {
   return new Promise((resolve, reject) => {
-    axios.put('/api/company', {
+    axios.put('/api/unit', {
       name,
       unitId,
     }, {

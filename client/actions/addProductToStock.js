@@ -1,4 +1,4 @@
-import { SET_COMPANY_FOR_PRODUCT, SET_DISTRIBUTOR_FOR_PRODUCT, SET_CATEGORY_FOR_PRODUCT } from './ActionTypes';
+import { SET_COMPANY_FOR_PRODUCT, SET_DISTRIBUTOR_FOR_PRODUCT, SET_CATEGORY_FOR_PRODUCT, SET_PRODUCT_FIELD } from './ActionTypes';
 
 export function setCompanyForProduct(companyId, companyName) {
   return {
@@ -21,5 +21,13 @@ export function setCategoryForProduct(categoryId, categoryName) {
     type: SET_CATEGORY_FOR_PRODUCT,
     categoryId,
     categoryName,
+  };
+}
+
+export function setProductField(fieldName, fieldValue) {
+  return {
+    type: SET_PRODUCT_FIELD,
+    fieldName,
+    fieldValue,
   };
 }

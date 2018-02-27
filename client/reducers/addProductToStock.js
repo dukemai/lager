@@ -1,4 +1,7 @@
-import { SET_COMPANY_FOR_PRODUCT, SET_DISTRIBUTOR_FOR_PRODUCT, SET_CATEGORY_FOR_PRODUCT } from '../actions/ActionTypes';
+import {
+  SET_COMPANY_FOR_PRODUCT, SET_DISTRIBUTOR_FOR_PRODUCT,
+  SET_CATEGORY_FOR_PRODUCT, SET_PRODUCT_FIELD,
+} from '../actions/ActionTypes';
 
 const INITIAL_STATES = {
   companyId: '',
@@ -7,9 +10,17 @@ const INITIAL_STATES = {
   distributorName: '',
   categoryId: '',
   categoryName: '',
+  productImage: '',
+  productName: '',
+  productCode: '',
+  productQuantity: 0,
+  productUnit: '',
+  productUnitName: '',
+  productPrice: 0,
+  productRetailPrice: 0,
 };
 
-export default function app(state = INITIAL_STATES, action) {
+export default function addProductToStock(state = INITIAL_STATES, action) {
   switch (action.type) {
     case SET_COMPANY_FOR_PRODUCT: {
       const { companyId, companyName } = action;
@@ -34,6 +45,14 @@ export default function app(state = INITIAL_STATES, action) {
         categoryId,
         categoryName,
       };
+    }
+    case SET_PRODUCT_FIELD: {
+      const { fieldName, fieldValue } = action;
+      const newState = {
+        ...state,
+      };
+      newState[fieldName] = fieldValue;
+      return newState;
     }
     default:
       return state;

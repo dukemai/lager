@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, Label, Icon } from 'semantic-ui-react';
+import { Dropdown, Label, Icon, Form } from 'semantic-ui-react';
 
 import { IfComponent } from '../';
 /* eslint-disable */
@@ -13,8 +13,8 @@ const propTypes = {
 const defaultProps = {
   isSingleChoice: true,
   value: null,
-  onChange: () => {},
-  onClear: () => {},
+  onChange: () => { },
+  onClear: () => { },
 };
 
 class AutoComplete extends React.Component {
@@ -43,7 +43,7 @@ class AutoComplete extends React.Component {
       <IfComponent
         condition={this.state.isReadOnly}
         whenTrue={
-          <Label>{this.props.text}<Icon name="delete" onClick={this.onReadOnlyRemoved} /></Label>
+          <Form.Input fluid value={this.props.text} readOnly />
         }
         whenFalse={
           <Dropdown
