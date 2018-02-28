@@ -1,12 +1,18 @@
 import Validator from 'validatorjs';
+import PhoneNumber from 'awesome-phonenumber';
+
+Validator.register('telephone', (value, requirement, attribute) => { // requirement parameter defaults to null
+  return new PhoneNumber(value).isValid();
+}, 'The :attribute phone number is not in the format XXX-XXX-XXXX.');
 
 export function validateCompany(company) {
   const rules = {
     name: 'required',
     email: 'required|email',
+    phoneNumber: 'telephone',
   };
 
-  return new Validator(company, rules).passes();
+  return new Validator(company, rules);
 }
 
 export function validateDistributor(input) {

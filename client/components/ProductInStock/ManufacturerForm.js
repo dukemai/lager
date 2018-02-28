@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { find } from 'lodash';
-import { Form, Accordion, Icon, Button, Divider } from 'semantic-ui-react';
+import { Form, Accordion, Icon, Button, Divider, Message } from 'semantic-ui-react';
 
 import { AutoComplete } from '../share';
 import { addCompany, getCompanies } from '../../server-interactions';
 import { setCompanyForProduct } from '../../actions';
+import { validateCompany } from '../../../common';
 
 class ManufacturerForm extends Component {
   static propTypes = {
@@ -38,31 +39,40 @@ class ManufacturerForm extends Component {
     isSaving: false,
     isFetchingCompanies: false,
     isNewCompany: false,
+    isShowingSuccess: false,
+    isShowingError: false,
+    errorText: '',
     ...this.initialCompanyState,
     companies: [],
     companySources: [],
+    validatedResult: null,
   }
   componentWillMount() {
     const { token } = this.props;
     this.loadCompanies(token);
-    this.setState({
-      companyName: this.props.companyName,
-      companyId: this.props.companyId,
-    });
+    this.state.companyName = this.props.companyName;
+    this.state.companyId = this.props.companyId;
   }
   componentWillReceiveProps(nextProps) {
     const { token } = nextProps;
     this.loadCompanies(token);
-    this.setState({
-      companyName: this.props.companyName,
-      companyId: this.props.companyId,
-    });
+    this.state.companyName = nextProps.companyName;
+    this.state.companyId = nextProps.companyId;
   }
   onInputChanged = (field, value) => {
     const { state } = this;
     state[field] = value;
+    const { companyEmail, companyPhoneNumber, companyName } = state;
+    const validatedResult = validateCompany({
+      email: companyEmail,
+      phoneNumber: companyPhoneNumber,
+      name: companyName,
+    });
     this.setState({
       ...state,
+      isShowSuccess: false,
+      isShowingError: false,
+      validatedResult,
     });
   }
   onNewCompanyAdded = (e, { value }) => {
@@ -133,10 +143,12 @@ class ManufacturerForm extends Component {
             text: doc.name,
             value: doc._id,
           }));
-          this.setState({
-            isFetchingCompanies: false,
-            companies,
-            companySources: response.companies,
+          requestAnimationFrame(() => {
+            this.setState({
+              isFetchingCompanies: false,
+              companies,
+              companySources: response.companies,
+            });
           });
           const { companyId, companyName } = this.state;
           this.populateCompanyInfo(companyId, response.companies, companyName);
@@ -166,6 +178,12 @@ class ManufacturerForm extends Component {
       this.props.setCompanyInformation(companyId, companyName);
       this.props.onNextClicked();
     } else {
+      this.setState({
+        isSaving: true,
+        isShowingError: false,
+        isShowingSuccess: false,
+        errorText: '',
+      });
       addCompany(
         this.props.token, companyName, contactName, companyPhoneNumber,
         companyEmail, companyAddress, companyTax, companyWebsite,
@@ -173,27 +191,48 @@ class ManufacturerForm extends Component {
         .then((response) => {
           this.setState({
             isSaving: false,
+            isShowingSuccess: true,
           });
-          this.props.setCompanyInformation(response.company._id, companyName);
-          this.props.onNextClicked();
+          requestAnimationFrame(() => {
+            this.props.setCompanyInformation(response.company._id, companyName);
+            this.props.onNextClicked();
+          });
         })
-        .catch((error) => {
+        .catch((response) => {
           this.setState({
             isSaving: false,
+            isShowingError: true,
+            errorText: response.error,
           });
         });
     }
+  }
+  getErrors = () => {
+    const { validatedResult } = this.state;
+    if (!validatedResult) {
+      return [];
+    }
+    const errors = validatedResult.errors.all();
+    let arr = [];
+    Object.keys(errors).forEach((k) => {
+      arr = [...arr, ...errors[k]];
+    });
+    return arr;
   }
   render() {
     const {
       activeIndex, isSaving, companyId, companies,
       contactName, companyPhoneNumber, companyAddress,
       companyEmail, companyTax, companyWebsite, isFetchingCompanies,
-      isNewCompany, companyName,
+      isNewCompany, companyName, isShowingSuccess, isShowingError,
+      errorText, validatedResult,
     } = this.state;
-    const isAbleToNext = Boolean(companyName);
+    const isAbleToNext = (Boolean(companyName) && !isNewCompany)
+      || (validatedResult && validatedResult.passes());
+
+    const isShowingValidationError = Boolean(validatedResult && validatedResult.fails());
     return (
-      <Form>
+      <Form error={isShowingError} success={isShowingSuccess}>
         <Form.Group widths="2">
           <Form.Field>
             <label>Company name</label>
@@ -240,16 +279,19 @@ class ManufacturerForm extends Component {
                 value={companyPhoneNumber}
                 onChange={(event, { value }) => { this.onInputChanged('companyPhoneNumber', value); }}
                 disabled={isSaving || !isNewCompany}
+                error={validatedResult && validatedResult.errors.has('phoneNumber')}
               />
             </Form.Group>
             <Form.Group widths="equal">
               <Form.Input
+                required
                 fluid
                 label="Email"
                 placeholder="Email"
                 value={companyEmail}
                 onChange={(event, { value }) => { this.onInputChanged('companyEmail', value); }}
                 disabled={isSaving || !isNewCompany}
+                error={validatedResult && validatedResult.errors.has('email')}
               />
               <Form.Input
                 fluid
@@ -281,7 +323,31 @@ class ManufacturerForm extends Component {
           </Accordion.Content>
         </Accordion>
         <Divider />
-        <Button disabled={!isAbleToNext} loading={isSaving} onClick={this.nextClicked} positive>
+        <Message
+          success
+          header="Saved"
+          content="Successfully"
+          visible={isShowingSuccess}
+        />
+        <Message
+          error
+          header="Save error"
+          content={errorText}
+          visible={isShowingError}
+        />
+        <Message
+          error
+          header="Field error"
+          content={errorText}
+          visible={isShowingValidationError}
+          list={this.getErrors()}
+        />
+        <Button
+          disabled={!isAbleToNext}
+          loading={isSaving}
+          onClick={this.nextClicked}
+          positive
+        >
           Next
           <Icon name="right arrow" />
         </Button>

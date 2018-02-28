@@ -50,7 +50,7 @@ router.post('/company', passport.authenticate('jwt', { session: false }), (req, 
     address,
     tax,
     website,
-  })) {
+  }).passes()) {
     res.status(400).json({
       created: false,
       error: 'validation failed',
@@ -113,7 +113,7 @@ router.put('/company', passport.authenticate('jwt', { session: false }), (req, r
     address,
     tax,
     website,
-  })) {
+  }).passes()) {
     res.status(400).json({
       updated: false,
       error: 'validation failed',

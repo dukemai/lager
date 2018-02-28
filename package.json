@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "7zip": "0.0.6",
+    "awesome-phonenumber": "^2.2.5",
     "axios": "^0.17.1",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.17.1",
