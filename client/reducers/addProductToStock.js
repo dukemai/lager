@@ -2,6 +2,7 @@ import {
   SET_COMPANY_FOR_PRODUCT, SET_DISTRIBUTOR_FOR_PRODUCT,
   SET_CATEGORY_FOR_PRODUCT, SET_PRODUCT_FIELD,
   SAVING_PRODUCT, SAVED_PRODUCT, SAVED_PRODUCT_FAILED,
+  SELECT_TAB,
 } from '../actions/ActionTypes';
 
 const INITIAL_STATES = {
@@ -22,6 +23,7 @@ const INITIAL_STATES = {
   isSavingProduct: false,
   isSavedProductSuccessfully: false,
   isSavedProductFailed: false,
+  activeTab: 0,
 };
 
 export default function addProductToStock(state = INITIAL_STATES, action) {
@@ -78,6 +80,13 @@ export default function addProductToStock(state = INITIAL_STATES, action) {
         isSavingProduct: false,
         isSavedProductFailed: true,
         isSavedProductSuccessfully: false,
+      };
+    }
+    case SELECT_TAB: {
+      const { activeTab } = action;
+      return {
+        ...state,
+        activeTab,
       };
     }
     default:

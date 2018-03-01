@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Header, Grid, Tab } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 import ManufacturerForm from './ManufacturerForm';
 import ProductForm from './ProductForm';
@@ -8,39 +9,30 @@ import DistributorForm from './DistributorForm';
 import RightPanel from './RightPanel';
 
 import { AuthenticatedLayout } from '../share';
+import { selectTab } from '../../actions';
 import './styles.styl';
 
 const propTypes = {
+  activeTab: PropTypes.number,
+  setTab: PropTypes.func,
 };
 const defaultProps = {
+  activeTab: 0,
+  setTab: () => {},
 };
 
-export default class ProductInStock extends React.Component {
+class ProductInStock extends React.Component {
   static propTypes = propTypes;
   static defaultProps = defaultProps;
 
-  state = {
-    activeIndex: 0,
-  }
   onTabChanged = (event, data) => {
-    this.setState({
-      activeIndex: data.activeIndex,
-    });
+    this.props.setTab(data.activeIndex);
   }
   onNextTabClicked = () => {
-    this.setState({
-      activeIndex: this.state.activeIndex + 1,
-    });
-  }
-  handleClick = (e, titleProps) => {
-    const { index } = titleProps;
-    const { activeIndex } = this.state;
-    const newIndex = activeIndex === index ? -1 : index;
-
-    this.setState({ activeIndex: newIndex });
+    this.props.setTab(this.props.activeTab + 1);
   }
   render() {
-    const { activeIndex } = this.state;
+    const { activeTab } = this.props;
     return (
       <AuthenticatedLayout>
         <Grid padded>
@@ -56,7 +48,7 @@ export default class ProductInStock extends React.Component {
           <Grid.Row>
             <Grid.Column className="productInStock" textAlign="left" width="12">
               <Tab
-                activeIndex={activeIndex}
+                activeIndex={activeTab}
                 onTabChange={this.onTabChanged}
                 menu={{
                   pointing: true,
@@ -99,3 +91,14 @@ export default class ProductInStock extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({
+  activeTab: state.addProductToStock.activeTab,
+});
+
+const mapDispatchToProps = dispatch => ({
+  setTab: (tabIdex) => {
+    dispatch(selectTab(tabIdex));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductInStock);
