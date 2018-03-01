@@ -20,6 +20,8 @@ const INITIAL_STATES = {
   productPrice: 0,
   productRetailPrice: 0,
   isSavingProduct: false,
+  isSavedProductSuccessfully: false,
+  isSavedProductFailed: false,
 };
 
 export default function addProductToStock(state = INITIAL_STATES, action) {
@@ -66,12 +68,16 @@ export default function addProductToStock(state = INITIAL_STATES, action) {
       return {
         ...state,
         isSavingProduct: false,
+        isSavedProductFailed: false,
+        isSavedProductSuccessfully: true,
       };
     }
     case SAVED_PRODUCT_FAILED: {
       return {
         ...state,
         isSavingProduct: false,
+        isSavedProductFailed: true,
+        isSavedProductSuccessfully: false,
       };
     }
     default:

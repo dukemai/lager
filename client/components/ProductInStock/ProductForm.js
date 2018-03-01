@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Label, Icon } from 'semantic-ui-react';
+import { Form, Label, Icon, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -24,6 +24,8 @@ class ProductForm extends Component {
     productPrice: PropTypes.number,
     productRetailPrice: PropTypes.number,
     isSavingProduct: PropTypes.bool,
+    isSavedProductFailed: PropTypes.bool,
+    isSavedProductSuccessfully: PropTypes.bool,
   }
   static defaultProps = {
     onCategoryChanged: () => { },
@@ -39,6 +41,8 @@ class ProductForm extends Component {
     productPrice: 0,
     productRetailPrice: 0,
     isSavingProduct: true,
+    isSavedProductFailed: false,
+    isSavedProductSuccessfully: false,
   }
   onInputChanged = (field, value) => {
     this.props.onInputChanged(field, value);
@@ -48,7 +52,9 @@ class ProductForm extends Component {
       productImage, productName, productCode,
       productQuantity, productRetailPrice, productPrice, productUnit,
       productUnitName, isSavingProduct,
+      isSavedProductFailed, isSavedProductSuccessfully,
     } = this.props;
+    console.log(isSavedProductFailed, isSavedProductSuccessfully);
     const { onCategoryChanged, categoryId, categoryName } = this.props;
     return (
       <Form>
@@ -88,22 +94,13 @@ class ProductForm extends Component {
             disabled={isSavingProduct}
           />
         </Form.Group>
-        <Form.Group widths="equal">
+        <Form.Group widths="2">
           <Form.Input
             fluid
             label="Product quantity"
             placeholder="Product quantity"
             value={productQuantity}
             onChange={(event, { value }) => { this.onInputChanged('productQuantity', parseNumber(value)); }}
-            disabled={isSavingProduct}
-          />
-          <Form.Input
-            fluid
-            label="Product image"
-            type="file"
-            placeholder="Product image"
-            value={productImage}
-            onChange={(event, { value }) => { this.onInputChanged('productImage', value); }}
             disabled={isSavingProduct}
           />
         </Form.Group>
@@ -137,6 +134,18 @@ class ProductForm extends Component {
             </Label>
           </Form.Field>
         </Form.Group>
+        <Message
+          success
+          header="Saved"
+          content="Successfully"
+          visible={isSavedProductSuccessfully}
+        />
+        <Message
+          error
+          header="Save error"
+          visible={isSavedProductFailed}
+          content="Error happens!!!"
+        />
       </Form>
     );
   }
@@ -153,6 +162,8 @@ const mapStateToProps = state => ({
   productUnitName: state.addProductToStock.productUnitName,
   productPrice: parseNumber(state.addProductToStock.productPrice),
   productRetailPrice: parseNumber(state.addProductToStock.productRetailPrice),
+  isSavedProductFailed: state.addProductToStock.isSavedProductFailed,
+  isSavedProductSuccessfully: state.addProductToStock.isSavedProductSuccessfully,
   isSavingProduct: state.addProductToStock.isSavingProduct,
 });
 const mapDispatchToProps = dispatch => ({
