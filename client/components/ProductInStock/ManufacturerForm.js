@@ -175,8 +175,8 @@ class ManufacturerForm extends Component {
       isNewCompany,
     } = this.state;
     if (!isNewCompany) {
-      this.props.setCompanyInformation(companyId, companyName);
       this.props.onNextClicked();
+      this.props.setCompanyInformation(companyId, companyName);
     } else {
       this.setState({
         isSaving: true,
@@ -291,7 +291,7 @@ class ManufacturerForm extends Component {
                 value={companyEmail}
                 onChange={(event, { value }) => { this.onInputChanged('companyEmail', value); }}
                 disabled={isSaving || !isNewCompany}
-                error={validatedResult && validatedResult.errors.has('email')}
+                error={validatedResult && validatedResult.errors.has('email') && Boolean(companyEmail)}
               />
               <Form.Input
                 fluid
@@ -348,7 +348,7 @@ class ManufacturerForm extends Component {
           onClick={this.nextClicked}
           positive
         >
-          Next
+          Save
           <Icon name="right arrow" />
         </Button>
       </Form>
