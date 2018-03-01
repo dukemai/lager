@@ -59,3 +59,19 @@ export function validateProductInStock(input) {
 
   return new Validator(input, rules).passes();
 }
+
+
+export function validateNewProductClientSide(input) {
+  const rules = {
+    productName: 'required',
+    productCode: 'required',
+    productQuantity: 'required|numeric',
+    productUnit: 'required',
+    productPrice: 'required|numeric',
+    productRetailPrice: 'required|numeric',
+    companyId: 'required',
+    distributorId: 'required',
+  };
+
+  return new Validator(input, rules);
+}

@@ -6,6 +6,7 @@ import {
   SAVING_PRODUCT, SAVED_PRODUCT, SAVED_PRODUCT_FAILED,
   SELECT_TAB, RESET_PRODUCT_FORM, VALIDATE_PRODUCT_FORM,
 } from '../actions/ActionTypes';
+import { validateNewProductClientSide } from '../../common';
 
 const INITIAL_PRODUCT = {
   productImage: '',
@@ -100,6 +101,13 @@ export default function addProductToStock(state = INITIAL_STATES, action) {
       return {
         ...state,
         ...INITIAL_PRODUCT,
+      };
+    }
+    case VALIDATE_PRODUCT_FORM: {
+      const isAbleToSave = validateNewProductClientSide(state).passes();
+      return {
+        ...state,
+        isAbleToSave,
       };
     }
     default:
