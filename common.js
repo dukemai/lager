@@ -2,7 +2,7 @@ import Validator from 'validatorjs';
 import PhoneNumber from 'awesome-phonenumber';
 
 Validator.register('telephone', (value, requirement, attribute) => { // requirement parameter defaults to null
-  return new PhoneNumber(value).isValid();
+  return new PhoneNumber(value).isValid() || /\d+/.test(value);
 }, 'The :attribute phone number is not in the format XXX-XXX-XXXX.');
 
 export function validateCompany(company) {
@@ -15,13 +15,14 @@ export function validateCompany(company) {
   return new Validator(company, rules);
 }
 
-export function validateDistributor(input) {
+export function validateDistributor(company) {
   const rules = {
     name: 'required',
     email: 'required|email',
+    phoneNumber: 'telephone',
   };
 
-  return new Validator(input, rules).passes();
+  return new Validator(company, rules);
 }
 
 export function validateCategory(input) {

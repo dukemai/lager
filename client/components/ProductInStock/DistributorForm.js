@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Form, Accordion, Icon, Button, Divider } from 'semantic-ui-react';
+import { Form, Accordion, Icon, Button, Divider, Message } from 'semantic-ui-react';
 import { find } from 'lodash';
 
 import { AutoComplete } from '../share';
 import { setDistributorForProduct } from '../../actions';
 import { addDistributor, getDistributors } from '../../server-interactions';
+import { validateDistributor } from '../../../common';
 
 class DistributorForm extends Component {
   static propTypes = {
@@ -25,8 +26,8 @@ class DistributorForm extends Component {
     distributorId: '',
     companyId: '',
   }
-  initialCompanyState = {
-    istributorId: '',
+  initialIndustriState = {
+    distributorId: '',
     distributorName: '',
     contactName: '',
     distributorPhoneNumber: '',
@@ -40,9 +41,13 @@ class DistributorForm extends Component {
     isSaving: false,
     isFetchingDistributors: false,
     isNewDistributor: false,
-    ...this.initialCompanyState,
+    ...this.initialIndustriState,
     distributors: [],
     distributorSources: [],
+    isShowingSuccess: false,
+    isShowingError: false,
+    errorText: '',
+    validatedResult: null,
   }
   componentWillMount() {
     const { token } = this.props;
@@ -61,7 +66,7 @@ class DistributorForm extends Component {
   onNewDistributorAdded = (e, { value }) => {
     const distributorName = value;
     this.setState({
-      ...this.initialCompanyState,
+      ...this.initialIndustriState,
       distributorName,
       distributors: [...this.state.distributors, {
         key: distributorName,
@@ -79,6 +84,19 @@ class DistributorForm extends Component {
     this.setState({
       ...state,
     });
+
+    const { distributorEmail, distributorPhoneNumber, distributorName } = state;
+    const validatedResult = validateDistributor({
+      email: distributorEmail,
+      phoneNumber: distributorPhoneNumber,
+      name: distributorName,
+    });
+    this.setState({
+      ...state,
+      isShowSuccess: false,
+      isShowingError: false,
+      validatedResult,
+    });
   }
   onDistributorSelectionChange = (e, data) => {
     const { value } = data;
@@ -95,7 +113,7 @@ class DistributorForm extends Component {
   }
   resetIndustriSelection = () => {
     this.setState({
-      ...this.initialCompanyState,
+      ...this.initialIndustriState,
     });
   }
   populateDistributorInfo = (distributorId, distributorSources, distributorName) => {
@@ -164,8 +182,8 @@ class DistributorForm extends Component {
       contactName, isNewDistributor,
     } = this.state;
     if (!isNewDistributor) {
-      this.props.setDistributorInformation(distributorId, distributorName);
       this.props.onNextClicked();
+      this.props.setDistributorInformation(distributorId, distributorName);
     } else {
       this.setState({
         isSaving: true,
@@ -180,8 +198,8 @@ class DistributorForm extends Component {
           this.setState({
             isSaving: false,
           });
-          this.props.setDistributorInformation(response.distributor._id, distributorName);
           this.props.onNextClicked();
+          this.props.setDistributorInformation(response.distributor._id, distributorName);
         })
         .catch((error) => {
           this.setState({
@@ -190,17 +208,32 @@ class DistributorForm extends Component {
         });
     }
   }
+  getErrors = () => {
+    const { validatedResult } = this.state;
+    if (!validatedResult) {
+      return [];
+    }
+    const errors = validatedResult.errors.all();
+    let arr = [];
+    Object.keys(errors).forEach((k) => {
+      arr = [...arr, ...errors[k]];
+    });
+    return arr;
+  }
   render() {
     const {
       distributorName, distributorId, distributors, activeIndex,
       distributorPhoneNumber, distributorAddress,
       distributorEmail, distributorTax, distributorWebsite, isSaving,
       contactName, isReadOnly, isFetchingDistributors, isNewDistributor,
-      companyId,
+      errorText, isShowingError, isShowingSuccess, validatedResult,
     } = this.state;
-    const isAbleToNext = Boolean(distributorName) && Boolean(companyId);
+    const { companyId } = this.props;
+    const isShowingValidationError = Boolean(validatedResult && validatedResult.fails());
+    const isAbleToNext = (Boolean(distributorName) && !isNewDistributor && Boolean(companyId))
+      || (Boolean(validatedResult) && validatedResult.passes());
     return (
-      <Form>
+      <Form success={isShowingSuccess} error={isShowingError} >
         <Form.Group widths="equal">
           <Form.Field>
             <label>Distributor name</label>
@@ -247,6 +280,7 @@ class DistributorForm extends Component {
                 value={distributorPhoneNumber}
                 onChange={(event, { value }) => { this.onInputChanged('distributorPhoneNumber', value); }}
                 disabled={isSaving || !isNewDistributor}
+                error={validatedResult && validatedResult.errors.has('phoneNumber')}
               />
             </Form.Group>
             <Form.Group widths="equal">
@@ -257,6 +291,7 @@ class DistributorForm extends Component {
                 value={distributorEmail}
                 onChange={(event, { value }) => { this.onInputChanged('distributorEmail', value); }}
                 disabled={isSaving || !isNewDistributor}
+                error={validatedResult && validatedResult.errors.has('email') && Boolean(distributorEmail)}
               />
               <Form.Input
                 fluid
@@ -288,8 +323,27 @@ class DistributorForm extends Component {
           </Accordion.Content>
         </Accordion>
         <Divider />
-        <Button disabled={isAbleToNext} loading={isSaving} onClick={this.nextClicked} positive>
-          Next
+        <Message
+          success
+          header="Saved"
+          content="Successfully"
+          visible={isShowingSuccess}
+        />
+        <Message
+          error
+          header="Save error"
+          content={errorText}
+          visible={isShowingError}
+        />
+        <Message
+          error
+          header="Field error"
+          content={errorText}
+          visible={isShowingValidationError}
+          list={this.getErrors()}
+        />
+        <Button disabled={!isAbleToNext} loading={isSaving} onClick={this.nextClicked} positive>
+          Save
           <Icon name="right arrow" />
         </Button>
       </Form>
