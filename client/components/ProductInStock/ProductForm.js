@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import ProductCategory from './Category';
 import ProductUnit from './Unit';
 
-import { setCategoryForProduct, setProductField } from '../../actions';
+import { setCategoryForProduct, setProductField, resetProductForm } from '../../actions';
 import { formatCurrency, parseNumber } from '../../utilities';
 
 class ProductForm extends Component {
@@ -26,6 +26,7 @@ class ProductForm extends Component {
     isSavingProduct: PropTypes.bool,
     isSavedProductFailed: PropTypes.bool,
     isSavedProductSuccessfully: PropTypes.bool,
+    resetAfterSuccess: PropTypes.func,
   }
   static defaultProps = {
     onCategoryChanged: () => { },
@@ -43,6 +44,15 @@ class ProductForm extends Component {
     isSavingProduct: true,
     isSavedProductFailed: false,
     isSavedProductSuccessfully: false,
+    resetAfterSuccess: () => { },
+  }
+  componentWillReceiveProps(nextProps) {
+    const { isSavedProductSuccessfully, resetAfterSuccess } = nextProps;
+    if (isSavedProductSuccessfully) {
+      requestAnimationFrame(() => {
+        resetAfterSuccess();
+      });
+    }
   }
   onInputChanged = (field, value) => {
     this.props.onInputChanged(field, value);
@@ -54,7 +64,6 @@ class ProductForm extends Component {
       productUnitName, isSavingProduct,
       isSavedProductFailed, isSavedProductSuccessfully,
     } = this.props;
-    console.log(isSavedProductFailed, isSavedProductSuccessfully);
     const { onCategoryChanged, categoryId, categoryName } = this.props;
     return (
       <Form>
@@ -172,6 +181,9 @@ const mapDispatchToProps = dispatch => ({
   },
   onInputChanged: (fieldName, fieldValue) => {
     dispatch(setProductField(fieldName, fieldValue));
+  },
+  resetAfterSuccess: () => {
+    dispatch(resetProductForm());
   },
 });
 

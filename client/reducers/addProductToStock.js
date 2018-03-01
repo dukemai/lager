@@ -1,17 +1,13 @@
+import 'rxjs';
+
 import {
   SET_COMPANY_FOR_PRODUCT, SET_DISTRIBUTOR_FOR_PRODUCT,
   SET_CATEGORY_FOR_PRODUCT, SET_PRODUCT_FIELD,
   SAVING_PRODUCT, SAVED_PRODUCT, SAVED_PRODUCT_FAILED,
-  SELECT_TAB,
+  SELECT_TAB, RESET_PRODUCT_FORM, VALIDATE_PRODUCT_FORM,
 } from '../actions/ActionTypes';
 
-const INITIAL_STATES = {
-  companyId: '',
-  companyName: '',
-  distributorId: '',
-  distributorName: '',
-  categoryId: '',
-  categoryName: '',
+const INITIAL_PRODUCT = {
   productImage: '',
   productName: '',
   productCode: '',
@@ -23,7 +19,18 @@ const INITIAL_STATES = {
   isSavingProduct: false,
   isSavedProductSuccessfully: false,
   isSavedProductFailed: false,
+  isAbleToSave: false,
+};
+
+const INITIAL_STATES = {
+  companyId: '',
+  companyName: '',
+  distributorId: '',
+  distributorName: '',
+  categoryId: '',
+  categoryName: '',
   activeTab: 0,
+  ...INITIAL_PRODUCT,
 };
 
 export default function addProductToStock(state = INITIAL_STATES, action) {
@@ -89,8 +96,21 @@ export default function addProductToStock(state = INITIAL_STATES, action) {
         activeTab,
       };
     }
+    case RESET_PRODUCT_FORM: {
+      return {
+        ...state,
+        ...INITIAL_PRODUCT,
+      };
+    }
     default:
       return state;
   }
 }
 
+const addProductEpic = action$ =>
+  action$.filter(action => action.type === SET_CATEGORY_FOR_PRODUCT
+  || action.type === SET_COMPANY_FOR_PRODUCT || action.type === SET_DISTRIBUTOR_FOR_PRODUCT
+  || action.type === SET_PRODUCT_FIELD)
+    .mapTo({ type: VALIDATE_PRODUCT_FORM });
+
+export { addProductEpic };

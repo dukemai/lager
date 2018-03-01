@@ -52,5 +52,5 @@ export function logOut() {
 export {
   setCompanyForProduct, setDistributorForProduct,
   setCategoryForProduct, setProductField, saveProduct,
-  selectTab,
+  selectTab, resetProductForm,
 } from './addProductToStock';

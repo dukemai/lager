@@ -234,7 +234,7 @@ class DistributorForm extends Component {
       || (Boolean(validatedResult) && validatedResult.passes());
     return (
       <Form success={isShowingSuccess} error={isShowingError} >
-        <Form.Group widths="equal">
+        <Form.Group widths="2">
           <Form.Field>
             <label>Distributor name</label>
             <AutoComplete

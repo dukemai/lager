@@ -1,11 +1,15 @@
 // @flow
 import { combineReducers } from 'redux';
 import { routerReducer as router } from 'react-router-redux';
+import { combineEpics, createEpicMiddleware } from 'redux-observable';
 
 import app from './app';
 import user from './user';
-import addProductToStock from './addProductToStock';
+import addProductToStock, { addProductEpic } from './addProductToStock';
 
+const rootEpic = combineEpics(addProductEpic);
+
+const epicMiddleware = createEpicMiddleware(rootEpic);
 const rootReducer = combineReducers({
   app,
   router,
@@ -14,3 +18,4 @@ const rootReducer = combineReducers({
 });
 
 export default rootReducer;
+export { epicMiddleware };

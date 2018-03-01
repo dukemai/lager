@@ -1,6 +1,6 @@
 import {
   SET_COMPANY_FOR_PRODUCT, SET_DISTRIBUTOR_FOR_PRODUCT, SET_CATEGORY_FOR_PRODUCT, SET_PRODUCT_FIELD,
-  SAVING_PRODUCT, SAVED_PRODUCT, SAVED_PRODUCT_FAILED, SELECT_TAB,
+  SAVING_PRODUCT, SAVED_PRODUCT, SAVED_PRODUCT_FAILED, SELECT_TAB, RESET_PRODUCT_FORM,
 } from './ActionTypes';
 
 import { addProduct, addProductInStock } from '../server-interactions';
@@ -90,5 +90,11 @@ export function selectTab(activeTab) {
   return {
     type: SELECT_TAB,
     activeTab,
+  };
+}
+
+export function resetProductForm() {
+  return {
+    type: RESET_PRODUCT_FORM,
   };
 }

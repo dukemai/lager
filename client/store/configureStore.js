@@ -7,7 +7,7 @@ import { createLogger } from 'redux-logger';
 import { persistStore, persistReducer } from 'redux-persist';
 import persistConfig from './persistConfig';
 
-import rootReducer from '../reducers';
+import rootReducer, { epicMiddleware } from '../reducers';
 
 const history = createHistory();
 const router = routerMiddleware(history);
@@ -17,7 +17,7 @@ const logger = createLogger({
   collapsed: true,
 });
 const enhancers = [
-  applyMiddleware(thunk, router, logger),
+  applyMiddleware(thunk, router, epicMiddleware, logger),
 ];
 const enhancer = compose(...enhancers);
 
