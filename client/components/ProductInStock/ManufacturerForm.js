@@ -194,8 +194,8 @@ class ManufacturerForm extends Component {
             isShowingSuccess: true,
           });
           requestAnimationFrame(() => {
-            this.props.setCompanyInformation(response.company._id, companyName);
             this.props.onNextClicked();
+            this.props.setCompanyInformation(response.company._id, companyName);
           });
         })
         .catch((response) => {
