@@ -1,20 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { push } from 'react-router-redux';
-import { connect } from 'react-redux';
 
-import { Menu, Icon, Grid, Header, Table, Sticky, Segment, Label, Button, Divider } from 'semantic-ui-react';
+import { Menu, Grid, Header, Sticky } from 'semantic-ui-react';
 
 import { AuthenticatedLayout } from '../share';
+import Right from './Right';
+import ProductTable from './ProductTable';
+
 import './styles.styl';
 
 const propTypes = {
-  newStockProductClicked: PropTypes.func,
-  newStockCompanyClicked: PropTypes.func,
+
 };
 const defaultProps = {
-  newStockCompanyClicked: () => { },
-  newStockProductClicked: () => { },
+
 };
 
 class Inspect extends React.Component {
@@ -25,7 +24,6 @@ class Inspect extends React.Component {
   }
 
   render() {
-    const { newStockProductClicked, newStockCompanyClicked } = this.props;
     return (
       <AuthenticatedLayout>
         <Grid padded>
@@ -38,75 +36,18 @@ class Inspect extends React.Component {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column textAlign="left" width="12">
-              <Table className="inspectScreen__table" celled>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>Product code</Table.HeaderCell>
-                    <Table.HeaderCell>Product title</Table.HeaderCell>
-                    <Table.HeaderCell>Category</Table.HeaderCell>
-                    <Table.HeaderCell>Quantity</Table.HeaderCell>
-                    <Table.HeaderCell>Unit</Table.HeaderCell>
-                    <Table.HeaderCell>Import Price</Table.HeaderCell>
-                    <Table.HeaderCell>Price</Table.HeaderCell>
-                    <Table.HeaderCell>Distributor</Table.HeaderCell>
-                    <Table.HeaderCell>Date</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
-
-                <Table.Body>
-                  <Table.Row>
-                    <Table.Cell>
-                      TL027
-                    </Table.Cell>
-                    <Table.Cell>Thien Long 027</Table.Cell>
-                    <Table.Cell>But</Table.Cell>
-                    <Table.Cell>10</Table.Cell>
-                    <Table.Cell>Thung</Table.Cell>
-                    <Table.Cell>3.000</Table.Cell>
-                    <Table.Cell>4.000</Table.Cell>
-                    <Table.Cell>Thien Long</Table.Cell>
-                    <Table.Cell>Feb-21 22.38</Table.Cell>
-                  </Table.Row>
-                </Table.Body>
-
-                <Table.Footer>
-                  <Table.Row>
-                    <Table.HeaderCell colSpan="9">
-                      <Menu floated='right' pagination>
-                        <Menu.Item as='a' icon>
-                          <Icon name='left chevron' />
-                        </Menu.Item>
-                        <Menu.Item as='a'>1</Menu.Item>
-                        <Menu.Item as='a'>2</Menu.Item>
-                        <Menu.Item as='a'>3</Menu.Item>
-                        <Menu.Item as='a'>4</Menu.Item>
-                        <Menu.Item as='a' icon>
-                          <Icon name='right chevron' />
-                        </Menu.Item>
-                      </Menu>
-                    </Table.HeaderCell>
-                  </Table.Row>
-                </Table.Footer>
-              </Table>
+              <Menu secondary pointing>
+                <Menu.Item name="Products" active onClick={this.handleItemClick} />
+                <Menu.Item name="Distributors" onClick={this.handleItemClick} />
+                <Menu.Item name="Manufacturers" onClick={this.handleItemClick} />
+                <Menu.Item name="Categories" onClick={this.handleItemClick} />
+                <Menu.Item name="Units" onClick={this.handleItemClick} />
+              </Menu>
+              <ProductTable />
             </Grid.Column>
             <Grid.Column width="4">
               <Sticky>
-                <Segment color="olive">
-                  <Button onClick={newStockProductClicked} icon positive labelPosition="left">
-                    <Icon name="plus" />
-                    Product
-                  </Button>
-                  <Divider />
-                  <Button onClick={newStockProductClicked} icon color="teal" labelPosition="left">
-                    <Icon name="compose" />
-                    Company
-                  </Button>
-                  <Divider />
-                  <Button onClick={newStockProductClicked} icon color="teal" labelPosition="left">
-                    <Icon name="compose" />
-                    Distributor
-                  </Button>
-                </Segment>
+                <Right />
               </Sticky>
             </Grid.Column>
           </Grid.Row>
@@ -119,16 +60,4 @@ class Inspect extends React.Component {
 Inspect.propTypes = propTypes;
 Inspect.defaultProps = defaultProps;
 
-const mapStateToProps = state => ({
-});
-
-const mapDispatchToProps = dispatch => ({
-  newStockProductClicked: () => {
-    dispatch(push('/inspect/new-product'));
-  },
-  newStockCompanyClicked: () => {
-    dispatch(push('/inspect/new-company'));
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Inspect);
+export default Inspect;
