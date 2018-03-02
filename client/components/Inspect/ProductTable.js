@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Menu, Icon, Table } from 'semantic-ui-react';
+import { Menu, Icon, Table, Checkbox } from 'semantic-ui-react';
+
+import ProductTableRow from './ProductTableRow';
 
 const propTypes = {
 };
@@ -8,9 +10,12 @@ const defaultProps = {
 };
 
 const ProductTable = ({ }) => (
-  <Table className="inspectScreen__table" celled>
+  <Table className="inspectScreen__table" size="small">
     <Table.Header>
       <Table.Row>
+        <Table.HeaderCell>
+          <Checkbox />
+        </Table.HeaderCell>
         <Table.HeaderCell>Product code</Table.HeaderCell>
         <Table.HeaderCell>Product title</Table.HeaderCell>
         <Table.HeaderCell>Category</Table.HeaderCell>
@@ -20,28 +25,20 @@ const ProductTable = ({ }) => (
         <Table.HeaderCell>Price</Table.HeaderCell>
         <Table.HeaderCell>Distributor</Table.HeaderCell>
         <Table.HeaderCell>Date</Table.HeaderCell>
+        <Table.HeaderCell><Icon name="sidebar" /></Table.HeaderCell>
       </Table.Row>
     </Table.Header>
-
     <Table.Body>
-      <Table.Row>
-        <Table.Cell>
-          TL027
-        </Table.Cell>
-        <Table.Cell>Thien Long 027</Table.Cell>
-        <Table.Cell>But</Table.Cell>
-        <Table.Cell>10</Table.Cell>
-        <Table.Cell>Thung</Table.Cell>
-        <Table.Cell>3.000</Table.Cell>
-        <Table.Cell>4.000</Table.Cell>
-        <Table.Cell>Thien Long</Table.Cell>
-        <Table.Cell>Feb-21 22.38</Table.Cell>
-      </Table.Row>
+      <ProductTableRow />
+      <ProductTableRow />
+      <ProductTableRow />
+      <ProductTableRow />
+      <ProductTableRow />
     </Table.Body>
 
     <Table.Footer>
       <Table.Row>
-        <Table.HeaderCell colSpan="9">
+        <Table.HeaderCell colSpan="11">
           <Menu floated='right' pagination>
             <Menu.Item as='a' icon>
               <Icon name='left chevron' />
