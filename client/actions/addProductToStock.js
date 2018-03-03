@@ -98,3 +98,13 @@ export function resetProductForm() {
     type: RESET_PRODUCT_FORM,
   };
 }
+
+export function hardResetProductForm() {
+  return (dispatch) => {
+    dispatch(resetProductForm());
+    dispatch(selectTab(0));
+    dispatch(setCategoryForProduct());
+    dispatch(setCompanyForProduct());
+    dispatch(setDistributorForProduct());
+  };
+}

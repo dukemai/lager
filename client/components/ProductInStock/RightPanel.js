@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { Segment, Progress, Button, Sticky, Label, List } from 'semantic-ui-react';
 
-import { saveProduct, selectTab, setCompanyForProduct, setDistributorForProduct } from '../../actions';
+import { saveProduct, selectTab, setCompanyForProduct, setDistributorForProduct, setCategoryForProduct } from '../../actions';
 
 const propTypes = {
   companyName: PropTypes.string,
@@ -43,19 +43,31 @@ const RightPanel = ({
           <div className="manufacturerForm__rightPanel__label">
             Company
           </div>
-          <Label content={companyName} onRemove={removeManufacturerClicked} color="blue" removeIcon="delete" />
+          {
+            companyName && (
+              <Label content={companyName} onRemove={removeManufacturerClicked} color="blue" removeIcon="delete" />
+            )
+          }
         </List.Item>
         <List.Item>
           <div className="manufacturerForm__rightPanel__label">
             Distributor
           </div>
-          <Label content={distributorName} onRemove={removeDistributorClicked} color="blue" removeIcon="delete" />
+          {
+            distributorName && (
+              <Label content={distributorName} onRemove={removeDistributorClicked} color="blue" removeIcon="delete" />
+            )
+          }
         </List.Item>
         <List.Item>
           <div className="manufacturerForm__rightPanel__label">
             Category
           </div>
-          <Label content={categoryName} color="blue" onRemove={()=>{}} removeIcon="delete" />
+          {
+            categoryName && (
+              <Label content={categoryName} color="blue" onRemove={()=>{}} removeIcon="delete" />
+            )
+          }
         </List.Item>
       </List>
     </Segment>
@@ -89,6 +101,10 @@ const mapDispatchToProps = dispatch => ({
   removeDistributorClicked: () => {
     dispatch(setDistributorForProduct());
     dispatch(selectTab(1));
+  },
+  removeCategoryClicked: () => {
+    dispatch(setCategoryForProduct());
+    dispatch(selectTab(2));
   },
 });
 

@@ -3,6 +3,7 @@ import { Menu, Button, Header, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import { hardResetProductForm } from '../../actions';
 
 class Right extends Component {
   static propTypes = {
@@ -58,6 +59,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   newStockProductClicked: () => {
+    dispatch(hardResetProductForm());
     dispatch(push('/inspect/new-product'));
   },
   newStockCompanyClicked: () => {
