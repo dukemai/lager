@@ -8,6 +8,8 @@ import Right from './Right';
 import ProductTable from './ProductTable';
 import InspectCompany from '../InspectCompany';
 import InspectDistributor from '../InspectDistributor';
+import InspectCategory from '../InspectCategory';
+import InspectUnit from '../InspectUnit';
 
 import './styles.styl';
 
@@ -42,13 +44,15 @@ class Inspect extends React.Component {
                 <MenuItem name="Products" path="/inspect" />
                 <MenuItem name="Distributors" path="/inspect/distributor" />
                 <MenuItem name="Manufacturers" path="/inspect/manufacturer" />
-                <Menu.Item name="Categories" onClick={this.handleItemClick} />
-                <Menu.Item name="Units" onClick={this.handleItemClick} />
+                <MenuItem name="Categories" path="/inspect/category" />
+                <MenuItem name="Units" path="/inspect/unit" />
               </Menu>
               <Switch>
                 <Route exact path="/inspect" component={ProductTable} />
                 <Route exact path="/inspect/manufacturer" component={InspectCompany} />
                 <Route exact path="/inspect/distributor" component={InspectDistributor} />
+                <Route exact path="/inspect/category" component={InspectCategory} />
+                <Route exact path="/inspect/unit" component={InspectUnit} />
               </Switch>
             </Grid.Column>
             <Grid.Column width="4">
