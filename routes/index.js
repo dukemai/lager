@@ -3,7 +3,8 @@ import express from 'express';
 const router = express.Router();
 
 /* GET home page. */
-router.get(['/', '/login', '/register', '/export', '/import', '/inspect', '/inspect/new-product', '/contacts'], (req, res, next) => {
+router.get(['/', '/login', '/register', '/export', '/import',
+  '/inspect', '/inspect/*', '/inspect/new-product', '/contacts'], (req, res, next) => {
   res.render('index', { title: 'Shop organize tool' });
 });
 

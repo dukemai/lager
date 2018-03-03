@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { Menu, Icon, Image, Dimmer, Loader } from 'semantic-ui-react';
 
-import SideBarItem from './SideBarItem';
+import { MenuItem } from '../';
 import './styles.styl';
 
 const propTypes = {
@@ -27,11 +27,11 @@ class SideBar extends React.Component {
         <Menu.Item>
           <Image className="sideBar__logo" src="https://react.semantic-ui.com/logo.png" />
         </Menu.Item>
-        <SideBarItem icon="list ul" name="Export" path="/" />
-        <SideBarItem icon="truck" name="Import" path="/import" />
-        <SideBarItem icon="archive" name="Inspect" path="/inspect" />
-        <SideBarItem icon="address book outline" name="Contacts" path="/contacts" />
-        <SideBarItem
+        <MenuItem icon="list ul" name="Export" path="/" />
+        <MenuItem icon="truck" name="Import" path="/import" />
+        <MenuItem icon="archive" name="Inspect" path="/inspect" />
+        <MenuItem icon="address book outline" name="Contacts" path="/contacts" />
+        <MenuItem
           icon="user circle"
           name={profile ? `${profile.firstName} ${profile.lastName}` : ''}
           path="/profile"

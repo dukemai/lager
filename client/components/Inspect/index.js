@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { Route, Switch } from 'react-router';
 import { Menu, Grid, Header, Sticky } from 'semantic-ui-react';
 
-import { AuthenticatedLayout } from '../share';
+import { AuthenticatedLayout, MenuItem } from '../share';
 import Right from './Right';
 import ProductTable from './ProductTable';
+import InspectCompany from '../InspectCompany';
+import InspectDistributor from '../InspectDistributor';
 
 import './styles.styl';
 
@@ -37,13 +39,17 @@ class Inspect extends React.Component {
           <Grid.Row>
             <Grid.Column textAlign="left" width="12">
               <Menu secondary pointing>
-                <Menu.Item name="Products" active onClick={this.handleItemClick} />
-                <Menu.Item name="Distributors" onClick={this.handleItemClick} />
-                <Menu.Item name="Manufacturers" onClick={this.handleItemClick} />
+                <MenuItem name="Products" path="/inspect" />
+                <MenuItem name="Distributors" path="/inspect/distributor" />
+                <MenuItem name="Manufacturers" path="/inspect/manufacturer" />
                 <Menu.Item name="Categories" onClick={this.handleItemClick} />
                 <Menu.Item name="Units" onClick={this.handleItemClick} />
               </Menu>
-              <ProductTable />
+              <Switch>
+                <Route exact path="/inspect" component={ProductTable} />
+                <Route exact path="/inspect/manufacturer" component={InspectCompany} />
+                <Route exact path="/inspect/distributor" component={InspectDistributor} />
+              </Switch>
             </Grid.Column>
             <Grid.Column width="4">
               <Sticky>

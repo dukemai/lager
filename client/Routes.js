@@ -30,10 +30,10 @@ class Routes extends React.Component {
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <AuthenticatedRoute exact path="/import" component={Import} />
-        <AuthenticatedRoute exact path="/inspect" component={Inspect} />
         <AuthenticatedRoute exact path="/profile" component={Profile} />
         <AuthenticatedRoute exact path="/contacts" component={Contacts} />
         <AuthenticatedRoute exact path="/inspect/new-product" component={ProductInStock} />
+        <AuthenticatedRoute exact path="/inspect/:inspect?" component={Inspect} />
       </Switch>
     );
   }

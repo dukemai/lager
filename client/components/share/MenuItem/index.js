@@ -22,12 +22,12 @@ const defaultProps = {
   isLoading: false,
 };
 
-const SideBarItem = ({
+const MenuItem = ({
   path, name, icon, onClick, isActive, isLoading,
 }) =>
   (
     <Menu.Item name={name} active={isActive} onClick={onClick}>
-      <Icon name={icon} />
+      {icon && (<Icon name={icon} />)}
       <Dimmer active={isLoading}>
         <Loader inverted active={isLoading} />
       </Dimmer>
@@ -35,8 +35,8 @@ const SideBarItem = ({
     </Menu.Item>
   );
 
-SideBarItem.propTypes = propTypes;
-SideBarItem.defaultProps = defaultProps;
+MenuItem.propTypes = propTypes;
+MenuItem.defaultProps = defaultProps;
 
 const mapStateToProps = (state, ownProps) => ({
   isActive: state.router.location.pathname === ownProps.path,
@@ -48,4 +48,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SideBarItem);
+export default connect(mapStateToProps, mapDispatchToProps)(MenuItem);
