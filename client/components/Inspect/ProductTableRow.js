@@ -26,22 +26,26 @@ const ProductTableRow = ({ }) => (
     <Table.Cell>Thien Long</Table.Cell>
     <Table.Cell>Feb-21 22.38</Table.Cell>
     <Table.Cell>
-      <Dropdown icon="sidebar" floating button className='icon'>
+      <Dropdown icon="sidebar" floating className="icon">
         <Dropdown.Menu>
-          <Dropdown.Header icon='tags' content='Filter by tag' />
+          <Dropdown.Item>
+            <Icon name="list layout" className="right floated" />
+            View
+          </Dropdown.Item>
           <Dropdown.Divider />
           <Dropdown.Item>
-            <Icon name='attention' className='right floated' />
-            Important
-        </Dropdown.Item>
+            <Icon name="edit" className="right floated" />
+            Quantity
+          </Dropdown.Item>
+          <Dropdown.Divider />
           <Dropdown.Item>
-            <Icon name='comment' className='right floated' />
-            Announcement
-        </Dropdown.Item>
+            <Icon name="edit" className="right floated" />
+            Price
+          </Dropdown.Item>
           <Dropdown.Item>
-            <Icon name='conversation' className='right floated' />
-            Discussion
-        </Dropdown.Item>
+            <Icon name="edit" className="right floated" />
+            Retail price
+          </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     </Table.Cell>

@@ -10,7 +10,7 @@ const defaultProps = {
 };
 
 const ProductTable = ({ }) => (
-  <Table className="inspectScreen__table" size="small">
+  <Table selectable className="inspectScreen__table" size="small">
     <Table.Header>
       <Table.Row>
         <Table.HeaderCell>
