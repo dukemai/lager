@@ -3,27 +3,46 @@ import PropTypes from 'prop-types';
 import { Icon, Table, Checkbox, Dropdown } from 'semantic-ui-react';
 
 const propTypes = {
+  productCode: PropTypes.string,
+  productName: PropTypes.string,
+  productCategory: PropTypes.string,
+  quantity: PropTypes.number,
+  price: PropTypes.number,
+  retailPrice: PropTypes.number,
+  unit: PropTypes.string,
+  distributorName: PropTypes.string,
 };
 const defaultProps = {
+  productCode: '',
+  productName: '',
+  productCategory: '',
+  quantity: 0,
+  price: 0,
+  retailPrice: 0,
+  unit: '',
+  distributorName: '',
 };
 
-const ProductTableRow = ({ }) => (
+const ProductTableRow = ({
+  productCode, productName, productCategory,
+  quantity, price, retailPrice, unit, distributorName,
+}) => (
   <Table.Row>
     <Table.Cell>
       <Checkbox />
     </Table.Cell>
     <Table.Cell>
       <a href="/">
-        TL027
+        {productCode}
       </a>
     </Table.Cell>
-    <Table.Cell>Thien Long 027</Table.Cell>
-    <Table.Cell>But</Table.Cell>
-    <Table.Cell>10</Table.Cell>
-    <Table.Cell>Thung</Table.Cell>
-    <Table.Cell>3.000</Table.Cell>
-    <Table.Cell>4.000</Table.Cell>
-    <Table.Cell>Thien Long</Table.Cell>
+    <Table.Cell>{productName}</Table.Cell>
+    <Table.Cell>{productCategory}</Table.Cell>
+    <Table.Cell>{quantity}</Table.Cell>
+    <Table.Cell>{unit}</Table.Cell>
+    <Table.Cell>{price}</Table.Cell>
+    <Table.Cell>{retailPrice}</Table.Cell>
+    <Table.Cell>{distributorName}</Table.Cell>
     <Table.Cell>Feb-21 22.38</Table.Cell>
     <Table.Cell>
       <Dropdown icon="sidebar" floating className="icon">

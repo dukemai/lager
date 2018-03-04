@@ -9,6 +9,12 @@ const router = express.Router();
 router.get('/products-in-stock', passport.authenticate('jwt', { session: false }), (req, res) => {
   ProductInStock
     .find()
+    .populate({
+      path: 'productId',
+      populate: { path: 'category' },
+    })
+    .populate('unit')
+    .populate('distributor')
     .then((productsInStock) => {
       res.status(200).json({
         productsInStock,
@@ -50,6 +56,7 @@ router.post('/product-in-stock', passport.authenticate('jwt', { session: false }
     productId,
     price,
     retailPrice,
+    distributorId,
   })) {
     res.status(400).json({
       created: false,
@@ -70,7 +77,7 @@ router.post('/product-in-stock', passport.authenticate('jwt', { session: false }
       } else {
         const newProduct = new ProductInStock({
           productId,
-          distributorId,
+          distributor: distributorId,
           price,
           retailPrice,
           quantity,

@@ -55,6 +55,7 @@ export function validateProductInStock(input) {
     price: 'required',
     retailPrice: 'required',
     productId: 'required',
+    distributorId: 'required',
   };
 
   return new Validator(input, rules).passes();
