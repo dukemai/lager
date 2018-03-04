@@ -1,5 +1,7 @@
 export { default as IfComponent } from './IfComponent';
 export { default as FormInput } from './FormInput';
+export { default as Paging } from './Paging';
+
 export { default as AuthenticatedRoute } from './AuthenticatedRoute';
 export { default as MenuItem } from './MenuItem';
 export { default as SideBar } from './SideBar';

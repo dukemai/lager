@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Icon, Table, Checkbox, Dropdown } from 'semantic-ui-react'; 
+import { Icon, Table, Checkbox, Dropdown } from 'semantic-ui-react';
 
 const propTypes = {
   productCode: PropTypes.string,

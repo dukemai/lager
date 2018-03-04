@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Menu, Icon, Table, Checkbox, Dimmer, Loader } from 'semantic-ui-react';
 
 import ProductTableRow from './ProductTableRow';
+import { Paging } from '../share';
 import { getProductsInStock } from '../../server-interactions';
 import { formatDateTime, formatCurrency } from '../../utilities';
 
@@ -19,7 +20,7 @@ class ProductTable extends React.Component {
     isLoading: false,
     productsInStock: [],
     total: 0,
-    pageSize: 2,
+    pageSize: 3,
     currentPage: 0,
   }
   componentWillMount() {
@@ -33,7 +34,10 @@ class ProductTable extends React.Component {
       });
   }
   render() {
-    const { isLoading, productsInStock } = this.state;
+    const {
+      isLoading, productsInStock, total, pageSize,
+    } = this.state;
+    const totalPages = total / pageSize;
     return (
       <div>
         <Dimmer inverted active={isLoading}>
@@ -79,18 +83,7 @@ class ProductTable extends React.Component {
           <Table.Footer>
             <Table.Row>
               <Table.HeaderCell colSpan="11">
-                <Menu floated="right" pagination>
-                  <Menu.Item as="a" icon>
-                    <Icon name="left chevron" />
-                  </Menu.Item>
-                  <Menu.Item as="a">1</Menu.Item>
-                  <Menu.Item as="a">2</Menu.Item>
-                  <Menu.Item as="a">3</Menu.Item>
-                  <Menu.Item as="a">4</Menu.Item>
-                  <Menu.Item as="a" icon>
-                    <Icon name="right chevron" />
-                  </Menu.Item>
-                </Menu>
+                <Paging totalPages={totalPages} />
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
