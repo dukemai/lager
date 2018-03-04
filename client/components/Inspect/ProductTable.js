@@ -5,6 +5,7 @@ import { Menu, Icon, Table, Checkbox, Dimmer, Loader } from 'semantic-ui-react';
 
 import ProductTableRow from './ProductTableRow';
 import { getProductsInStock } from '../../server-interactions';
+import { formatDateTime, formatCurrency } from '../../utilities';
 
 const propTypes = {
   token: PropTypes.string,
@@ -59,11 +60,12 @@ class ProductTable extends React.Component {
                   productCode={productInStock.productId.code}
                   productName={productInStock.productId.name}
                   productCategory={productInStock.productId.category.name}
-                  price={productInStock.price}
-                  retailPrice={productInStock.retailPrice}
+                  price={formatCurrency(productInStock.price)}
+                  retailPrice={formatCurrency(productInStock.retailPrice)}
                   quantity={productInStock.quantity}
                   unit={productInStock.unit.name}
                   distributorName={productInStock.distributor.name}
+                  updatedDate={formatDateTime(productInStock.updatedDate)}
                 />
               ))
             }

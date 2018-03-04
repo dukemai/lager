@@ -1,5 +1,6 @@
 import formatCurrencyInternal from 'format-currency';
 import parseNumInternal from 'parse-num';
+import moment from 'moment';
 
 export function validateEmail(input) {
   return Boolean(input);
@@ -23,4 +24,8 @@ export function formatCurrency(input) {
 
 export function parseNumber(input) {
   return input ? parseNumInternal(input) : 0;
+}
+
+export function formatDateTime(input) {
+  return moment(input).format('YYYY-DD-MM');
 }
