@@ -12,6 +12,7 @@ const propTypes = {
   onClick: PropTypes.func,
   isActive: PropTypes.bool,
   isLoading: PropTypes.bool,
+  isParentMenu: PropTypes.bool,
 };
 const defaultProps = {
   path: '',
@@ -20,10 +21,11 @@ const defaultProps = {
   onClick: () => { },
   isActive: false,
   isLoading: false,
+  isParentMenu: false,
 };
 
 const MenuItem = ({
-  path, name, icon, onClick, isActive, isLoading,
+  path, name, icon, onClick, isActive, isLoading
 }) =>
   (
     <Menu.Item name={name} active={isActive} onClick={onClick}>
@@ -39,7 +41,8 @@ MenuItem.propTypes = propTypes;
 MenuItem.defaultProps = defaultProps;
 
 const mapStateToProps = (state, ownProps) => ({
-  isActive: state.router.location.pathname === ownProps.path,
+  isActive: state.router.location.pathname === ownProps.path ||
+    (ownProps.isParentMenu && state.router.location.pathname.startsWith(ownProps.path)),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

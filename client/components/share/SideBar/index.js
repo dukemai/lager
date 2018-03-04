@@ -29,7 +29,7 @@ class SideBar extends React.Component {
         </Menu.Item>
         <MenuItem icon="list ul" name="Export" path="/" />
         <MenuItem icon="truck" name="Import" path="/import" />
-        <MenuItem icon="archive" name="Inspect" path="/inspect" />
+        <MenuItem isParentMenu icon="archive" name="Inspect" path="/inspect" />
         <MenuItem icon="address book outline" name="Contacts" path="/contacts" />
         <MenuItem
           icon="user circle"
