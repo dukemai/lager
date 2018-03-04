@@ -1,10 +1,14 @@
 import axios from 'axios';
 
-export function getProductsInStock(token) {
+export function getProductsInStock(token, page, pageSize) {
   return new Promise((resolve, reject) => {
     axios.get('/api/products-in-stock', {
       headers: {
         Authorization: token,
+      },
+      params: {
+        page,
+        pageSize,
       },
     })
       .then(res => resolve(res.data))

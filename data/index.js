@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { databaseConfig } from '../config';
+import './utilities';
 
 export { default as Account } from './account';
 export { default as Company } from './company';

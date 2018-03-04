@@ -18,12 +18,17 @@ class ProductTable extends React.Component {
   state = {
     isLoading: false,
     productsInStock: [],
+    total: 0,
+    pageSize: 2,
+    currentPage: 0,
   }
   componentWillMount() {
-    getProductsInStock(this.props.token)
+    const { currentPage, pageSize } = this.state;
+    getProductsInStock(this.props.token, currentPage, pageSize)
       .then((res) => {
         this.setState({
           productsInStock: res.productsInStock,
+          total: res.total,
         });
       });
   }

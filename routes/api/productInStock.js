@@ -7,22 +7,33 @@ import { validateProductInStock } from '../../common';
 const router = express.Router();
 
 router.get('/products-in-stock', passport.authenticate('jwt', { session: false }), (req, res) => {
+  const { page, pageSize } = req.query;
+  const toTake = pageSize || 20;
   ProductInStock
     .find()
-    .populate({
-      path: 'productId',
-      populate: { path: 'category' },
+    .paginate(page || 1, toTake, true)
+    .then(({ query, total }) => {
+      query.populate({
+        path: 'productId',
+        populate: { path: 'category' },
+      })
+        .populate('unit')
+        .populate('distributor')
+        .then((productsInStock) => {
+          res.status(200).json({
+            productsInStock,
+            total,
+          });
+        })
+        .catch((error) => {
+          res.status(500).json({
+            error,
+          });
+        });
     })
-    .populate('unit')
-    .populate('distributor')
-    .then((productsInStock) => {
-      res.status(200).json({
-        productsInStock,
-      });
-    })
-    .catch((error) => {
+    .catch((pagingError) => {
       res.status(500).json({
-        error,
+        pagingError,
       });
     });
 });
