@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, Label, Icon, Form } from 'semantic-ui-react';
+import { Dropdown, Label, Icon } from 'semantic-ui-react';
 
 import { IfComponent } from '../';
 /* eslint-disable */
@@ -23,6 +23,11 @@ class AutoComplete extends React.Component {
   }
   componentWillMount() {
     this.state.isReadOnly = Boolean(this.props.isSingleChoice && this.props.value);
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      isReadOnly: Boolean(nextProps.isSingleChoice && nextProps.value),
+    })
   }
   onReadOnlyAdded = () => {
     this.setState({

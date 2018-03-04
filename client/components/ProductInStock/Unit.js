@@ -58,10 +58,10 @@ class Unit extends React.Component {
           productUnitName: data.unit.name,
           isFetchingUnits: false,
         });
-        this.loadCategories();
         requestAnimationFrame(() => {
           this.props.onUnitChanged(this.state.productUnit, this.state.productUnitName);
         });
+        this.loadCategories();
       })
       .catch((error) => {
         this.setState({
