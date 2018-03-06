@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import { Form, Button, Icon, Message } from 'semantic-ui-react';
+import { Form, Label, Icon, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Dropzone from 'react-dropzone';
 
 import ProductCategory from './Category';
 import ProductUnit from './Unit';
 
 import { setCategoryForProduct, setProductField, resetProductForm } from '../../actions';
-import { parseNumber } from '../../utilities';
+import { formatCurrency, parseNumber } from '../../utilities';
 
-class ProductForm extends Component {
+class StockForm extends Component {
   static propTypes = {
     onCategoryChanged: PropTypes.func,
     onInputChanged: PropTypes.func,
@@ -68,47 +67,46 @@ class ProductForm extends Component {
     const { onCategoryChanged, categoryId, categoryName } = this.props;
     return (
       <Form>
-        <Form.Group widths="equal">
-          <ProductCategory
-            onCategoryChanged={(id, name) => {
-              onCategoryChanged(id, name);
-            }}
-            productCategory={categoryId}
-            productCategoryName={categoryName}
-          />
-          <ProductUnit
-            onUnitChanged={(name, value) => {
-              this.onInputChanged('productUnit', name);
-              this.onInputChanged('productUnitName', value);
-            }}
-            productUnit={productUnit}
-            productUnitName={productUnitName}
+        <Form.Group widths="2">
+          <Form.Input
+            fluid
+            label="Product quantity"
+            placeholder="Product quantity"
+            value={productQuantity}
+            onChange={(event, { value }) => { this.onInputChanged('productQuantity', parseNumber(value)); }}
             disabled={isSavingProduct}
           />
         </Form.Group>
         <Form.Group widths="equal">
-          <Form.Input
-            fluid
-            label="Product name"
-            placeholder="Product name"
-            value={productName}
-            onChange={(event, { value }) => { this.onInputChanged('productName', value); }}
-            disabled={isSavingProduct}
-          />
-          <Form.Input
-            fluid
-            label="Product code"
-            placeholder="Product code"
-            value={productCode}
-            onChange={(event, { value }) => { this.onInputChanged('productCode', value); }}
-            disabled={isSavingProduct}
-          />
+          <Form.Field>
+            <Form.Input
+              fluid
+              label="Product price"
+              placeholder="Product price"
+              value={productPrice}
+              onChange={(event, { value }) => { this.onInputChanged('productPrice', parseNumber(value)); }}
+              disabled={isSavingProduct}
+            />
+            <Label pointing as="a" color="black">
+              <Icon name="dollar" />
+              {formatCurrency(productPrice)}
+            </Label>
+          </Form.Field>
+          <Form.Field>
+            <Form.Input
+              fluid
+              label="Product retail price"
+              placeholder="Product retail price"
+              value={productRetailPrice}
+              onChange={(event, { value }) => { this.onInputChanged('productRetailPrice', parseNumber(value)); }}
+              disabled={isSavingProduct}
+            />
+            <Label pointing color="black">
+              <Icon name="dollar" />
+              {formatCurrency(productRetailPrice)}
+            </Label>
+          </Form.Field>
         </Form.Group>
-        <Form.Field>
-          <Dropzone>
-            <p>Try dropping some files here, or click to select files to upload.</p>
-          </Dropzone>
-        </Form.Field>
         <Message
           success
           header="Saved"
@@ -121,10 +119,6 @@ class ProductForm extends Component {
           visible={isSavedProductFailed}
           content="Error happens!!!"
         />
-        <Button disabled loading onClick={this.nextClicked} positive>
-          Save
-          <Icon name="right arrow" />
-        </Button>
       </Form>
     );
   }
@@ -157,4 +151,4 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductForm);
+export default connect(mapStateToProps, mapDispatchToProps)(StockForm);

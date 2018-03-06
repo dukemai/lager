@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Header, Grid, Tab } from 'semantic-ui-react';
+import { Header, Grid, Tab, Step, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 import ManufacturerForm from './ManufacturerForm';
 import ProductForm from './ProductForm';
 import DistributorForm from './DistributorForm';
 import RightPanel from './RightPanel';
+import StockForm from './StockForm';
 
 import { AuthenticatedLayout } from '../share';
 import { selectTab } from '../../actions';
@@ -18,7 +19,7 @@ const propTypes = {
 };
 const defaultProps = {
   activeTab: 0,
-  setTab: () => {},
+  setTab: () => { },
 };
 
 class ProductInStock extends React.Component {
@@ -50,9 +51,7 @@ class ProductInStock extends React.Component {
               <Tab
                 activeIndex={activeTab}
                 onTabChange={this.onTabChanged}
-                menu={{
-                  pointing: true,
-                }}
+                menu={{ pointing: true }}
                 panes={[
                   {
                     menuItem: 'Manufacturer Information',
@@ -75,6 +74,14 @@ class ProductInStock extends React.Component {
                     render: () => (
                       <Tab.Pane color="violet" attached={false}>
                         <ProductForm />
+                      </Tab.Pane>
+                    ),
+                  },
+                  {
+                    menuItem: 'Stock Information',
+                    render: () => (
+                      <Tab.Pane color="violet" attached={false}>
+                        <StockForm />
                       </Tab.Pane>
                     ),
                   },
